@@ -5,6 +5,7 @@ import { Input } from "../../components/Input/Style";
 import { Button } from "../../components/Button/Style";
 import { ButtonTitle } from "../../components/ButtonTitle/Style";
 import { Subtitle } from "../../components/Subtitle/Style";
+import { Link } from "../../components/Link/Style";
 
 export const ForgotPasswordScreen = ({ navigation }) => {
   async function Continue(){
@@ -25,6 +26,7 @@ export const ForgotPasswordScreen = ({ navigation }) => {
       <Button onPress={(e) => Continue()}>
         <ButtonTitle color={"white"}>Continuar</ButtonTitle>
       </Button>
+      <Link onPress={navigation.navigate("Login")} color={"#344F8F"}>Cancelar</Link>
     </Container>
   );
 };

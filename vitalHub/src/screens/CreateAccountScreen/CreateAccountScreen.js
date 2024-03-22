@@ -7,7 +7,7 @@ import { ButtonTitle } from "../../components/ButtonTitle/Style";
 import { Subtitle } from "../../components/Subtitle/Style";
 import { Link } from "../../components/Link/Style";
 
-export const CreateAccountScreen = () => {
+export const CreateAccountScreen = ({navigation}) => {
   return (
     <Container>
       <Logo source={require("../../assets/VitalHub_Logo 1.png")} />
@@ -24,7 +24,7 @@ export const CreateAccountScreen = () => {
       <Button>
         <ButtonTitle color={"white"}>Cadastrar</ButtonTitle>
       </Button>
-      <Link color={"#344F8F"}>Cancelar</Link>
+      <Link onPress={navigation.navigate("Login")} color={"#344F8F"}>Cancelar</Link>
     </Container>
   );
 };

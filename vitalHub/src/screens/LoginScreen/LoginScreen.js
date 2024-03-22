@@ -11,10 +11,23 @@ import { ButtonTitle } from "../../components/ButtonTitle/Style";
 import { Link } from "../../components/Link/Style";
 import { TextAccount } from "../../components/TextAccount/Style";
 import { AntDesign } from "@expo/vector-icons";
+import { useState } from "react";
+import api from "../../services/service";
 
 export const LoginScreen = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+
   async function Login() {
-    navigation.navigate("Main");
+    await api.post("/Login"),
+      {
+        email: email,
+        senha: senha,
+      }.then((response) => {
+        console.log(response).catch((error) => {
+          console.log(error);
+        });
+      });
   }
 
   async function CreateAccount() {
@@ -29,8 +42,17 @@ export const LoginScreen = ({ navigation }) => {
       <Logo source={require("../../assets/VitalHub_Logo 1.png")} />
 
       <Title>Entrar ou criar conta</Title>
-      <Input placeholder="Usuario ou email" />
-      <Input placeholder="Senha" />
+      <Input
+        placeholder="Usuario ou email"
+        value={email}
+        onChangeText={(txt) => setEmail(txt)}
+      />
+      <Input
+        placeholder="Senha"
+        secureTextEntry={true}
+        value={senha}
+        onChangeText={(txt) => setSenha(txt)}
+      />
       <ButtonSecondary onPress={(e) => ForgotPassword()}>
         <Link color={"#8c8a97"}>Esqueceu sua senha?</Link>
       </ButtonSecondary>
