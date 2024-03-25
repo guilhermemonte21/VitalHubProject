@@ -45,3 +45,17 @@ export const FieldContent = styled.View`
   width:75%;
   justify-content: space-between; 
 `;
+
+export const UserImageHeader = styled.Image`
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+
+  margin-top: 30px;
+`;
+
+export const WelcomeView = styled.View`
+flex-direction: row;
+align-items: center;
+gap: 20px;
+`

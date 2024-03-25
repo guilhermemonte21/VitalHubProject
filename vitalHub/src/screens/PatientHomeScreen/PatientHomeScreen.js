@@ -19,6 +19,8 @@ import { DoctorModal } from "../../components/DoctorModal/DoctorModal";
 import { ButtonSecondary } from "../../components/Button/Style";
 import { FontAwesome } from "@expo/vector-icons";
 import { CancellationModal } from "../../components/CancellationModal/CancellationModal";
+import { Header1 } from "../../components/Header/Index";
+
 
 const Consultas = [
   { id: 1, nome: "Richard", situacao: "pendente" },
@@ -37,19 +39,9 @@ export const PatientHomeScreen = ({ route, navigation }) => {
   const [showModalAppointment, setShowModalAppointment] = useState(false);
   const [showModalDoctor, setShowModalDoctor] = useState(false);
   return (
-    <Container>
-      <HeaderHome>
-        <ButtonSecondary onPress={(e) => GoToProfile()}>
-          <UserDoctor
-            source={require("../../assets/ProfileImgPlaceholder.png")}
-          />
-        </ButtonSecondary>
-        <InfoContainer>
-          <UserText>Bem-vindo</UserText>
-          <MontSerratWhite>Richard Kosta</MontSerratWhite>
-        </InfoContainer>
-        <NotificationBell source={require("../../assets/Notification.png")} />
-      </HeaderHome>
+    
+     <Container>
+     <Header1/>
 
       <DoctorContainer>
         <CalendarHome />
