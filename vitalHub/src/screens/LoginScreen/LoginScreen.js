@@ -13,29 +13,36 @@ import { TextAccount } from "../../components/TextAccount/Style";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 import api from "../../services/service";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("1234");
+  const [inProgress, setInProgress] = useState(false);
 
-  async function Login(){
-    await api.post('/Login',{
-        email: email,
-        senha:senha
-    }).then(async (response) =>{
-        await AsyncStorage.setItem("token", JSON.stringify(response.data))
+  async function Login() {
+    if (!inProgress) {
+      loginInProcess = true;
+      await api
+        .post("/Login", {
+          email: email,
+          senha: senha,
+        })
+        .then(async (response) => {
+          await AsyncStorage.setItem("token", JSON.stringify(response.data));
 
-        navigation.navigate("Main")
-    }).catch(error =>{
-        console.log(error);
-    })
+          navigation.navigate("Main");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      return;
+    }
+  }
 
-    // navigation.navigate("Main")
-}
-
-
+  // navigation.navigate("Main")
 
   return (
     <Container bgColor={"FAFAFA"}>
