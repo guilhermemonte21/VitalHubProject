@@ -25,6 +25,7 @@
     "ant-design": "^1.0.0",
     "antd": "^5.14.1",
     "antd-mobile-rn": "^2.3.3",
+    "async-storage": "^0.1.0",
     "axios": "^1.6.8",
     "base-64": "^1.0.0",
     "expo": "~50.0.6",

@@ -12,6 +12,7 @@ export const HeaderHome = styled(LinearGradient).attrs({
   border-radius: 0 0 15px 15px;
   padding: 20px;
 
+
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -32,8 +33,10 @@ export const UserName = styled.Text`
   color: #fbfbfb;
   margin-bottom: 5px;
   margin-left: 15px;
-  text-align: left; 
+  text-align: left;
   width: 50%;
+  
+  justify-content: column;
 `;
 
 export const BellIcon = styled.Image`
@@ -50,8 +53,6 @@ export const UserImageHeader = styled.Image`
   width: 60px;
   height: 60px;
   border-radius: 5px;
-
-  margin-top: 30px;
 `;
 
 export const WelcomeView = styled.View`
