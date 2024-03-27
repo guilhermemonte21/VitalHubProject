@@ -15,6 +15,7 @@ import { ProfileImg } from "../../components/ProfileImage/ProfileImage";
 import { ProfileImgPlaceholder } from "../../assets/ProfileImgPlaceholder.png";
 import { BoxInput } from "../../components/BoxInput/Index";
 import { InputLabel } from "../../components/Label/Style";
+import { useState } from "react";
 
 export const ProfileScreen = () => {
   const [nome, setNome] = useState()

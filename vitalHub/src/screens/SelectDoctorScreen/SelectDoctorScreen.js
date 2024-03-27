@@ -9,49 +9,21 @@ import { DoctorCard } from "../../components/DoctorCard/DoctorCard";
 import api from "../../services/service";
 import axios from "axios";
 
-
-//* Criar o state para receber a lista dos medicos(Array)
-const [Doctors, setDoctors] = useState([])
-
-//* Criar a funcao para obter a lista de medicos da api e setar no state
-export const getAllDoctors = async () => {
-  const getDoctors = {
-    method: "get",
-    url: `${baseURL}`
-  }
-  const response = await axios(getDoctors)
-  console.log(response.data);
-  setDoctors(response.data)
-}
-
-//* Criar um effect para chamada da funcao
-useEffect(() => {
-  getAllDoctors()
-}, [])
-
-
-
 export const SelectDoctorScreen = ({ navigation }) => {
-  // const Doutores = [
-  //   {
-  //     id: 1,
-  //     name: "Dra Alessandra",
-  //     specialty: "Dermatologa, Esteticista",
-  //     imgSource: "Alessandra.png",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Dr Kumushiro",
-  //     specialty: "Cirurgião, Cardiologista",
-  //     imgSource: "Kumushiro.png",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Dr Rodrigo Santos",
-  //     specialty: "Clínico, Pediatra",
-  //     imgSource: "Rodrigo.png",
-  //   },
-  // ];
+  //* Criar o state para receber a lista dos medicos(Array)
+  const [Doctors, setDoctors] = useState([])
+
+  async function getDoctors() {
+    api.get("/Medicos").then(response => { setDoctors(response.data) }).catch(error => console.log(error))
+  }
+
+  
+
+
+  //* Criar um effect para chamada da funcao
+  useEffect(() => {
+    getAllDoctors()
+  }, [])
 
   const [selectedDoctor, setSelectedDoctor] = useState(1);
 
