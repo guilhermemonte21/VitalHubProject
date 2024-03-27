@@ -17,12 +17,27 @@ import { BoxInput } from "../../components/BoxInput/Index";
 import { InputLabel } from "../../components/Label/Style";
 
 export const ProfileScreen = () => {
+  const [nome, setNome] = useState()
+  const [email, setEmail] = useState()
+  async function profileLoad() {
+    const token = await userDecodeToken()
+
+    if (token) {
+
+      console.log(token)
+      setNome(token.name)
+      setEmail(token.email)
+    }
+  }
+  useEffect(() => {
+    profileLoad()
+  }, [])
   return (
     <>
       <ProfileImg source={require("../../assets/ProfileImgPlaceholder.png")} />
       <Container color={"#FBFBFB"}>
-        <Title>Richard Kosta</Title>
-        <Subtitle color={"4E4B59"}>richard.kosta@gmail.com</Subtitle>
+        <Title>{nome}</Title>
+        <Subtitle color={"4E4B59"}>{email}</Subtitle>
 
         <FieldContent>
           <InputLabel>Data de nascimento</InputLabel>
