@@ -16,8 +16,8 @@ export const DoctorCard = ({
     <CardContainer selected={selected} onPress={onPress}>
       <DoctorImg source={require("../../assets/DoctorImage.png")} />
       <CardColumn>
-        <CardTitle>{doctor.IdNavigation.nome}</CardTitle>
-        <CardText>{doctor.IdNavigation.especialidade}</CardText>
+        <CardTitle>{doctor.idNavigation.nome}</CardTitle>
+        <CardText>{doctor.idNavigation.especialidade1}</CardText>
       </CardColumn>
     </CardContainer>
   );
