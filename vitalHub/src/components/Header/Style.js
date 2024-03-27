@@ -45,7 +45,7 @@ export const BellIcon = styled.Image`
 `;
 
 export const FieldContent = styled.View`
-  width:75%;
+  width:60%;
   justify-content: space-between; 
 `;
 

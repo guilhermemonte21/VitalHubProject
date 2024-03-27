@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Container } from "../Container/Style.js";
-import { HeaderHome, UserName, WelcomeView, UserImageHeader } from "./Style.js";
+import { HeaderHome, UserName, WelcomeView, UserImageHeader, FieldContent } from "./Style.js";
 
 import { UserText, MontSerratWhite } from "../Text/Style.js";
 import { userDecodeToken } from "../../utils/Auth.js";
@@ -24,10 +24,10 @@ export const Header1 = () => {
     <HeaderHome>
       <WelcomeView>
         <UserImageHeader source={require("../../assets/DoctorImage.png")} />
-        <UserName>
+        <FieldContent>
           <MontSerratWhite>Bem Vindo</MontSerratWhite>
           <UserText>{nome}</UserText>
-        </UserName>
+        </FieldContent>
       </WelcomeView>
       <Ionicons name="notifications" size={25} color="white" />
     </HeaderHome>
