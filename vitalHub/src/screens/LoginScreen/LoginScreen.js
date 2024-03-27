@@ -11,13 +11,13 @@ import { ButtonTitle } from "../../components/ButtonTitle/Style";
 import { Link } from "../../components/Link/Style";
 import { TextAccount } from "../../components/TextAccount/Style";
 import { AntDesign } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../../services/service";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 
 export const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("rick@gmail.com");
   const [senha, setSenha] = useState("1234");
 
   async function Login(){
@@ -34,6 +34,20 @@ export const LoginScreen = ({ navigation }) => {
 
     // navigation.navigate("Main")
 }
+
+async function profileLoad() {
+  const token = await userDecodeToken()
+
+  if (token) {
+
+      console.log(token)
+      setNome(token.name)
+  }
+}
+
+useEffect(() => {
+  profileLoad()
+}, [])
 
 
 
@@ -57,7 +71,7 @@ export const LoginScreen = ({ navigation }) => {
         <Link color={"#8c8a97"}>Esqueceu sua senha?</Link>
       </ButtonSecondary>
 
-      <Button onPress={() => Login()}>
+      <Button onPress={() => Login()}  >
         <ButtonTitle color={"white"}>Entrar</ButtonTitle>
       </Button>
       <ButtonGoogle>

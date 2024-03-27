@@ -23,7 +23,7 @@ export const Header1 = () => {
         profileLoad()
     }, [])
     return (
-        <Container>
+    
             <HeaderHome>
                 <WelcomeView>
                     <UserImageHeader
@@ -37,6 +37,6 @@ export const Header1 = () => {
                 <Ionicons name="notifications" size={25} color="white" />
             </HeaderHome>
 
-        </Container>
+        
     )
 }
