@@ -1,12 +1,32 @@
 import { ScreenTitle } from "../../components/Title/Style";
 import { Container } from "../../components/Container/Style";
 import { Button, ButtonSecondary } from "../../components/Button/Style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ListComponent } from "../../components/List/Style";
 import { ButtonTitle } from "../../components/ButtonTitle/Style";
 import { Link } from "../../components/Link/Style";
 import { ClinicCard } from "../../components/ClinicCard/ClinicCard";
 export const SelectClinicScreen = ({ navigation, setModal }) => {
+    //* Criar o state para receber a lista dos medicos(Array)
+    const [Clinic, setClinics] = useState([]);
+
+    async function getClinics() {
+      api
+        .get("/Clinicas")
+        .then((response) => {
+          setDoctors(response.data);
+        })
+        .catch((error) => console.log(error));
+    }
+    //* Criar um effect para chamada da funcao
+    useEffect(() => {
+      getClinics();
+    }, []);
+  
+    const [selectedDoctor, setSelectedDoctor] = useState();
+  
+    //* Passar os dados do state(Array) para o flatlist
+    //* Passar o médico como prop no DoctorCard
   async function HandleReturn() {
     await setModal(true);
     navigation.navigate("Home");

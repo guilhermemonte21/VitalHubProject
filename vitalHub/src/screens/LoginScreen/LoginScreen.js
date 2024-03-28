@@ -47,7 +47,6 @@ export const LoginScreen = ({ navigation }) => {
 
     if (token) {
       console.log(token);
-      setNome(token.name);
     }
   }
 

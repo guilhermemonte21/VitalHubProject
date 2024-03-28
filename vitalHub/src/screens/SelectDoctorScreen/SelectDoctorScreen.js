@@ -26,7 +26,7 @@ export const SelectDoctorScreen = ({ navigation }) => {
     getDoctors();
   }, []);
 
-  const [selectedDoctor, setSelectedDoctor] = useState(1);
+  const [selectedDoctor, setSelectedDoctor] = useState();
 
   //* Passar os dados do state(Array) para o flatlist
   //* Passar o médico como prop no DoctorCard
