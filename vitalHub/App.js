@@ -72,8 +72,8 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
-
   return (
+    
     //container - envolve toda a estrutura de navegacao
     //navigator - componente de navegacao
     //screen - tela
