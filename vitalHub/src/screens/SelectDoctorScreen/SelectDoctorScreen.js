@@ -23,13 +23,8 @@ export const SelectDoctorScreen = ({ navigation }) => {
   }
   //* Criar um effect para chamada da funcao
   useEffect(() => {
-<<<<<<< HEAD
     getDoctors();
   }, []);
-=======
-    getDoctors()
-  }, [])
->>>>>>> 2463e1aae6a18bcaf2e3022cbff134c7aebceeba
 
   const [selectedDoctor, setSelectedDoctor] = useState(1);
 
@@ -44,15 +39,9 @@ export const SelectDoctorScreen = ({ navigation }) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <DoctorCard
-<<<<<<< HEAD
-            doctor={item.item}
-            // selected={selectedDoctor === item.id ? true : false}
-            // onPress={() => setSelectedDoctor(item.id)}
-=======
             doctor={item}
           // selected={selectedDoctor === item.id ? true : false}
           // onPress={() => setSelectedDoctor(item.id)}
->>>>>>> 2463e1aae6a18bcaf2e3022cbff134c7aebceeba
           />
         )}
       />
