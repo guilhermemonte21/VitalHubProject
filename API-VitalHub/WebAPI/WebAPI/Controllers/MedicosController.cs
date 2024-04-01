@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
         [HttpGet("BuscarPorId")]
         public IActionResult GetById(Guid id)
         {
-           
+
             return Ok(_medicoRepository.BuscarPorId(id)); ;
         }
 

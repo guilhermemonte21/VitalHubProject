@@ -36,7 +36,7 @@ namespace WebAPI.Repositories
         public void EditarStatus(Consulta consulta)
         {
             Consulta buscada = ctx.Consultas.Find(consulta.Id);
-            
+
             buscada.SituacaoId = consulta.SituacaoId;
             ctx.Update(buscada);
             ctx.SaveChanges();
@@ -45,10 +45,9 @@ namespace WebAPI.Repositories
 
         public List<Consulta> ListarPorMedico(Guid IdMedico)
         {
+
             List<Consulta> listaConsultas = ctx.Consultas
-                .Include(x => x.Paciente!.IdNavigation)
-                .Include(x => x.Situacao)
-                .Include(x => x.Prioridade)
+                .Include(x => x.MedicoClinica)
                 .Where(x => x.MedicoClinica != null && x.MedicoClinica.MedicoId == IdMedico)
                 .ToList();
 
@@ -59,9 +58,9 @@ namespace WebAPI.Repositories
         public List<Consulta> ListarPorPaciente(Guid IdPaciente)
         {
             List<Consulta> listaConsultas = ctx.Consultas
-                .Include(x => x.MedicoClinica!.Medico!.IdNavigation)
+                .Include(x => x.MedicoClinica)
+                .Include(x => x.Paciente)
                 .Include(x => x.Situacao)
-                .Include(x => x.Prioridade)
                 .Where(x => x.PacienteId != null && x.PacienteId == IdPaciente)
                 .ToList();
 

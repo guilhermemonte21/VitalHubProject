@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
-using WebAPI.Domains;
 using WebAPI.Interfaces;
 using WebAPI.Repositories;
 using WebAPI.ViewModels;
@@ -32,8 +31,6 @@ namespace WebAPI.Controllers
 
             return Ok();
         }
-
         
-
     }
 }

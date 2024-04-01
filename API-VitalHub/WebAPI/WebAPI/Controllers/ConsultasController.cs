@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
             return Ok(consultas);
         }
 
-        [Authorize(Roles ="Medico")]
+        [Authorize(Roles = "Medico")]
         [HttpGet("ConsultasMedico")]
         public IActionResult BuscarConsultasMedico()
         {

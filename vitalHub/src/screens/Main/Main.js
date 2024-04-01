@@ -53,7 +53,7 @@ export const Main = () => {
       <BottomTab.Screen
         headerShown={false}
         name="Home"
-        component={PatientHomeScreen}
+        component={ PatientHomeScreen}
       />
       <BottomTab.Screen
         headerShown={false}
