@@ -16,18 +16,21 @@ import { AppointmentCard } from "../../components/AppointmentCard/AppointmentCar
 import { ListComponent } from "../../components/List/Style";
 import { AppointmentModal } from "../../components/AppointmentModal/AppointmentModal";
 import { CancellationModal } from "../../components/CancellationModal/CancellationModal";
+import api from "../../services/service";
 
-const Consultas = [
-  { id: 1, nome: "Richard", situacao: "pendente" },
-  { id: 2, nome: "Richard", situacao: "realizado" },
-  { id: 3, nome: "Richard", situacao: "cancelado" },
-  { id: 4, nome: "Richard", situacao: "cancelado" },
-];
+
+
 
 export const DoctorHomeScreen = () => {
   const [statusLista, setStatusLista] = useState("pendente");
   const [showModalCancel, setShowModalCancel] = useState(false);
   const [showModalAppointment, setShowModalAppointment] = useState(false);
+  const [consulta, setConsulta] = useState([])
+
+
+  async function getClinic() {
+    api.get("/Consultas").then(response => { setConsulta(response.data) }).catch(error => console.log(error))
+  }
   return (
     <Container>
       <HeaderHome>
@@ -63,7 +66,7 @@ export const DoctorHomeScreen = () => {
           />
         </ContainerButton>
         <ListComponent
-          data={Consultas}
+          data={consulta}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) =>
             statusLista == item.situacao && (
