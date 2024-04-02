@@ -14,7 +14,7 @@ export const Header1 = () => {
 
         if (token) {
 
-            console.log(token)
+            // console.log(token)
             setNome(token.name)
         }
     }
