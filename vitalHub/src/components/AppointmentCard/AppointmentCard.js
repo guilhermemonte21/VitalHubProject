@@ -28,7 +28,7 @@ export const AppointmentCard = ({
 }) => {
   return (
     <ContainerCardsList>
-      <ButtonSecondary onPress={onPressDoctor}>
+      <ButtonSecondary onPress={() => onPressDoctor(true)}>
         <ProfileImage
           source={require("../../assets/ProfileImgPlaceholder.png")}
         />

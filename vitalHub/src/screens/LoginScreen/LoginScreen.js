@@ -33,7 +33,6 @@ export const LoginScreen = ({ navigation }) => {
         .then(async (response) => {
           console.log("Passo 2");
           await AsyncStorage.setItem("token", JSON.stringify(response.data));
-          console.log(AsyncStorage.getItem("token"));
           navigation.navigate("Main");
         })
         .catch((error) => {

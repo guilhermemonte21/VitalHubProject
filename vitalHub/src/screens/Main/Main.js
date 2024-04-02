@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 //* Telas
 import { PatientHomeScreen } from "../PatientHomeScreen/PatientHomeScreen";
+import { DoctorHomeScreen } from "../DoctorHomeScreen/DoctorHomeScreen";
 import { ProfileScreen } from "../ProfileScreen/ProfileScreen";
 
 //* Chamando os elementos de estilização
@@ -9,6 +10,8 @@ import { ContentIcon, TextIcon } from "./Style";
 
 //*
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { userDecodeToken } from "../../utils/Auth";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -53,7 +56,7 @@ export const Main = () => {
       <BottomTab.Screen
         headerShown={false}
         name="Home"
-        component={ PatientHomeScreen}
+        component={userDecodeToken().role === "Medico" ? DoctorHomeScreen : PatientHomeScreen}
       />
       <BottomTab.Screen
         headerShown={false}

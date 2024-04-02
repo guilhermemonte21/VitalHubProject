@@ -75,6 +75,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
                 situacao={item.situacao}
                 onPressCancel={setShowModalCancel}
                 onPressAppointment={setShowModalDoctor}
+                onPressDoctor={setShowModalDoctor}
                 showsVerticalScrollIndicator={false}
               />
             )
