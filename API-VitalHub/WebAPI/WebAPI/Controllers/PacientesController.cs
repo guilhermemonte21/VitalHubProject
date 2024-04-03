@@ -85,5 +85,10 @@ namespace WebAPI.Controllers
 
             return Ok();
         }
+        [HttpGet("BuscarPorData")]
+        public IActionResult BuscarPorData(DateTime data, Guid id)
+        {
+            return Ok(pacienteRepository.BuscarPorData(data, id));
+        }
     }
 }

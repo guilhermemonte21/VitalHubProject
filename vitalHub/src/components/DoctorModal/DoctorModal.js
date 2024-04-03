@@ -43,7 +43,7 @@ export const DoctorModal = ({
             <ModalTextSmall>Clínico Geral</ModalTextSmall>
             <ModalTextSmall>CRM-15286</ModalTextSmall>
           </RowContainer>
-          <ConfirmButton onPress={navigation}>
+          <ConfirmButton onPress={() => handlePress("LocationScreen")}>
             <ButtonTitle color={"#FFF"}>VER LOCAL DA CONSULTA</ButtonTitle>
           </ConfirmButton>
           <LinkButton onPress={() => setShowModal(false)}>

@@ -1,4 +1,7 @@
-import { ColumnContainer, LinkButton } from "../../components/DoctorModal/Style";
+import {
+  ColumnContainer,
+  LinkButton,
+} from "../../components/DoctorModal/Style";
 import { Title } from "../../components/Title/Style";
 import { Subtitle } from "../../components/Subtitle/Style";
 import { FormContainer, GPSimg, InputLightWide, Row } from "./Style";
@@ -13,9 +16,23 @@ import { InputLightSmall, FieldContentShort } from "./Style";
 import GpsView from "../../components/GpsView/GpsView";
 import { ButtonSecondary } from "../../components/Button/Style";
 import { Link } from "../../components/Link/Style";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 export const LocationScreen = ({ navigation, route }) => {
-  useEffect(() => { console.log(route); }, [route.params])
+  const [clinica, setClinica] = useState({});
+  useEffect(() => {
+    console.log(route);
+    BuscarClinica()
+  }, [route.params]);
+  async function BuscarClinica() {
+    await api
+      .get(`/Clinica/BuscarPorId?id=${route.params.clinicaId}`)
+      .then((response) => {
+        setClinica(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   return (
     <Container>
       <GpsView />
@@ -26,7 +43,9 @@ export const LocationScreen = ({ navigation, route }) => {
         </ColumnContainer>
         <FieldContent>
           <InputLabel>Endereço</InputLabel>
-          <InputLightWide placeholder={"Rua Vicenso Silva, 987"}></InputLightWide>
+          <InputLightWide
+            placeholder={"Rua Vicenso Silva, 987"}
+          ></InputLightWide>
         </FieldContent>
         <Row>
           <FieldContentShort>
