@@ -5,8 +5,8 @@ import moment from "moment";
 import { StyledCalendarStrip } from "./Style";
 import { useState } from "react";
 
-export const CalendarHome = () => {
-  const [dataConsulta, setDataConsulta] = useState({})
+export const CalendarHome = ({ setDataConsulta }) => {
+  
 
 
 

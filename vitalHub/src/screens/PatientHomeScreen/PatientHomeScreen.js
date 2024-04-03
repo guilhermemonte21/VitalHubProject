@@ -22,6 +22,7 @@ import { CancellationModal } from "../../components/CancellationModal/Cancellati
 import { Header1 } from "../../components/Header/Index";
 import api from "../../services/service";
 import { userDecodeToken } from "../../utils/Auth";
+import moment from "moment";
 
 
 
@@ -35,6 +36,8 @@ export const PatientHomeScreen = ({ route, navigation }) => {
         // console.log(token)
         setProfile(token)
         console.log(token);
+
+        setDataConsulta( moment().format('YYYY-MM-DD') )
     }
 
 
@@ -54,11 +57,11 @@ export const PatientHomeScreen = ({ route, navigation }) => {
 
   async function getConsultas() {
     const url = profile.role == 'Medico' ? 'Medicos' : 'Pacientes'
-    console.log((`/${url}/BuscarPorData?=data=${dataConsulta}&id=${profile.id}`));
-    await api.get(`/${url}/BuscarPorData?=data=${dataConsulta}&id=${profile.id}`).then(response => {
+    console.log((`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.id}`));
+    await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.id}`).then(response => {
 
       setConsulta(response.data)
-      console.log(consulta);
+      console.log(response.data);
     }).catch(error => console.log(error))
   }
 
@@ -67,7 +70,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
 
   
   const [consulta, setConsulta] = useState([])
-  const [dataConsulta, setDataConsulta] = useState([])
+  const [dataConsulta, setDataConsulta] = useState("")
   const [profile, setProfile] = useState({})
 
 
@@ -77,16 +80,14 @@ export const PatientHomeScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     profileLoad()
-    console.log("passo1");
-    getConsultas()
-
-    console.log(getConsultas())
   }, [])
+
   useEffect(() => {
-    console.log(dataConsulta);
-    setProfile()
 
-
+    if(dataConsulta != ""){
+      getConsultas()
+    }
+    
   }, [dataConsulta])
 
   async function GoToProfile() {
@@ -103,48 +104,42 @@ export const PatientHomeScreen = ({ route, navigation }) => {
      <Header1/>
 
       <DoctorContainer>
-        <CalendarHome />
+        <CalendarHome setDataConsulta={setDataConsulta} />
 
         <ContainerButton>
           <BtnListAppointment
             textButton={"Agendadas"}
-            clickButton={statusLista === "Pendentes"}
-            onPress={() => setStatusLista("Pendentes")}
+            clickButton={statusLista === "pendente"}
+            onPress={() => setStatusLista("pendente")}
           />
 
           <BtnListAppointment
             textButton={"Realizadas"}
-            clickButton={statusLista === "Realizados"}
-            onPress={() => setStatusLista("Realizados")}
+            clickButton={statusLista === "realizado"}
+            onPress={() => setStatusLista("realizado")}
           />
 
           <BtnListAppointment
             textButton={"Canceladas"}
-            clickButton={statusLista === "Cancelados"}
-            onPress={() => setStatusLista("Cancelados")}
+            clickButton={statusLista === "cancelado"}
+            onPress={() => setStatusLista("cancelado")}
           />
         </ContainerButton>
         <ListComponent
           data={consulta}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) =>
-            statusLista == item.situacao && (
-              // <AppointmentCard
-              //   navigation={navigation}
-              //   situacao={item.situacao}
-              //   onPressCancel={setShowModalCancel}
-              //   onPressAppointment={setShowModalDoctor}
-              //   showsVerticalScrollIndicator={false}
-              // />
+            // console.log( statusLista +"=="+ item.situacao.situacao )
+            statusLista == item.situacao.situacao && (
               <AppointmentCard
-              situacao={item.situacao}
-              navigation={navigation}
-              roleUsuario={profile.role}
-              dataConsulta={item.dataConsulta}
-              prioridade={item.prioridade.prioridade}
-              usuarioConsulta={profile.role == "Medico" ? item.paciente : item.medicoClinica.medico}
-              onPressCancel={setShowModalCancel}
-              onPressAppointment={setShowModalDoctor}>
+                situacao={item.situacao}
+                navigation={navigation}
+                roleUsuario={profile.role}
+                dataConsulta={item.dataConsulta}
+                prioridade={item.prioridade.prioridade}
+                usuarioConsulta={profile.role == "Medico" ? item.paciente : item.medicoClinica.medico}
+                onPressCancel={setShowModalCancel}
+                onPressAppointment={setShowModalDoctor}>
                 
               </AppointmentCard>
             )

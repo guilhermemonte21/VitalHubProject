@@ -44,8 +44,8 @@ export const AppointmentCard = ({
           <ProfileName>{usuarioConsulta.idNavigation.nome}</ProfileName>
           <ProfileData>
             <TextAge>{roleUsuario == "Medico" ? "22 Anos" : usuarioConsulta.crm}</TextAge>
-            <Entypo name="dot-single" size={3} color="#D9D9D9" />
-            <TextBold>Rotina</TextBold>
+            <Entypo name="dot-single" size={3} color={"#D9D9D9"} />
+            <TextBold>{prioridade}</TextBold>
           </ProfileData>
 
           <ViewRow>
