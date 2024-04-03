@@ -19,13 +19,9 @@ export const ClinicCard = ({ name, location, starRating, openDays, selected, onP
         <CardText>{location}</CardText>
       </CardColumn>
       <CardColumnLeft>
-        <CardRow>
-          <AntDesign name="star" size={20} color="#F9A620" />
-          <StarText>{starRating}</StarText>
-        </CardRow>
         <DateBox>
           <Entypo name="calendar" size={14} color="#49B3BA" />
-          <DateText>{openDays}</DateText>
+          <DateText>seg - sex</DateText>
         </DateBox>
       </CardColumnLeft>
     </CardContainer>

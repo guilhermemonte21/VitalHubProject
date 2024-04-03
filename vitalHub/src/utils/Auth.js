@@ -20,13 +20,13 @@ export const userDecodeToken = async () => {
   //Decodifica o token recebido
   const decoded = jwtDecode(token);
 
-  return {
-    name: decoded.name,
-    email: decoded.email,
-    role: decoded.role,
-    token: token,
-  };
-};
+    return {
+        name: decoded.name,
+        email: decoded.email,
+        role: decoded.role,
+        id: decoded.jti
+    }
+}
 
 export const logout = async ({ navigation }) => {
   const token = await AsyncStorage.getItem("token");

@@ -19,15 +19,15 @@ namespace WebAPI.Controllers
             consultaRepository = new ConsultaRepository();
         }
 
-        [Authorize]
-        [HttpGet]
-        public IActionResult BuscarConsultasPaciente()
-        {
-            Guid idUsuario = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
 
-            List<Consulta> consultas = consultaRepository.ListarPorPaciente(idUsuario);
-            return Ok(consultas);
-        }
+        //[HttpGet]
+        //public IActionResult BuscarConsultasPaciente()
+        //{
+        //    Guid idUsuario = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
+
+        //    List<Consulta> consultas = consultaRepository.ListarPorPaciente(idUsuario);
+        //    return Ok(consultas);
+        //}
 
         [Authorize(Roles = "Medico")]
         [HttpGet("ConsultasMedico")]

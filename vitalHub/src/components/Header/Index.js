@@ -11,9 +11,15 @@ export const Header1 = () => {
   async function profileLoad() {
     const token = await userDecodeToken();
 
-    if (token) {
-      console.log(token);
-      setNome(token.name);
+    const [nome, setNome] = useState()
+    async function profileLoad() {
+        const token = await userDecodeToken()
+
+        if (token) {
+
+            // console.log(token)
+            setNome(token.name)
+        }
     }
   }
 

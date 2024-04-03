@@ -19,12 +19,18 @@ import {
 import { ButtonSecondary } from "../Button/Style";
 
 export const AppointmentCard = ({
-  profile = "Paciente", // :3
-  situacao = "pendente",
+  situacao,
+  navigation,
+  roleUsuario,
+  dataConsulta,
+  prioridade,
+  usuarioConsulta,
+  name,
+  age,
+  profile,
   onPressCancel,
   onPressAppointment,
   onPressDoctor,
-  navigation,
 }) => {
   return (
     <ContainerCardsList>
@@ -35,11 +41,11 @@ export const AppointmentCard = ({
       </ButtonSecondary>
       <ContentCard>
         <DataProfileCard>
-          <ProfileName>Gustavo Magalhães</ProfileName>
+          <ProfileName>{usuarioConsulta.idNavigation.nome}</ProfileName>
           <ProfileData>
-            <TextAge>19 anos</TextAge>
-            <Entypo name="dot-single" size={3} color="#D9D9D9" />
-            <TextBold>Rotina</TextBold>
+            <TextAge>{roleUsuario == "Medico" ? "22 Anos" : usuarioConsulta.crm}</TextAge>
+            <Entypo name="dot-single" size={3} color={"#D9D9D9"} />
+            <TextBold>{prioridade}</TextBold>
           </ProfileData>
 
           <ViewRow>

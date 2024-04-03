@@ -6,76 +6,38 @@ import { ListComponent } from "../../components/List/Style";
 import { ButtonTitle } from "../../components/ButtonTitle/Style";
 import { Link } from "../../components/Link/Style";
 import { ClinicCard } from "../../components/ClinicCard/ClinicCard";
+import api from "../../services/service";
 export const SelectClinicScreen = ({ navigation, setModal }) => {
-    //* Criar o state para receber a lista dos medicos(Array)
-    const [Clinic, setClinics] = useState([]);
+const [Clinic, setClinic] = useState([]);
 
-    async function getClinics() {
-      api
-        .get("/Clinicas")
-        .then((response) => {
-          setDoctors(response.data);
-        })
-        .catch((error) => console.log(error));
-    }
-    //* Criar um effect para chamada da funcao
-    useEffect(() => {
-      getClinics();
-    }, []);
-  
-    const [selectedDoctor, setSelectedDoctor] = useState();
-  
-    //* Passar os dados do state(Array) para o flatlist
-    //* Passar o médico como prop no DoctorCard
   async function HandleReturn() {
     await setModal(true);
     navigation.navigate("Home");
   }
-  const Consultas = [
-    {
-      id: 1,
-      name: "Clínica Natureh",
-      location: "São Paulo, SP",
-      starRating: 4.5,
-      openDays: "Seg-Sex",
-    },
-    {
-      id: 2,
-      name: "Diamond Pró-Mulher",
-      location: "São Paulo, SP",
-      starRating: 4.8,
-      openDays: "Seg-Sex",
-    },
-    {
-      id: 3,
-      name: "Clinica Villa Lobos",
-      location: "Taboão, SP",
-      starRating: 4.2,
-      openDays: "Seg-Sab",
-    },
-    {
-      id: 4,
-      name: "SP Oncologia Clínica",
-      location: "Taboão, SP",
-      starRating: 4.2,
-      openDays: "Seg-Sab",
-    },
-  ];
+  async function getClinic() {
+    api.get("/Clinica/ListarTodas").then(response => { setClinic(response.data) }).catch(error => console.log(error))
+  }
+
+
+  useEffect(() => {
+    getClinic()
+  }, [])
+
   const [selectedClinic, setSelectedClinic] = useState(0);
+  
   return (
     <Container>
       <ScreenTitle>Selecionar Clínica</ScreenTitle>
       <ListComponent
-        data={Consultas}
+        data={Clinic}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <ClinicCard
-            name={item.name}
-            location={item.location}
-            starRating={item.starRating}
-            openDays={item.openDays}
-            selected={selectedClinic == item.id ? true : false}
-            onPress={() => setSelectedClinic(item.id)}
+            name={item.nomeFantasia}
+            location={item.endereco.cidade}
+            
+            // selected={selectedClinic == item.id ? true : false}
+            // onPress={() => setSelectedClinic(item.id)}
           />
         )}
       />

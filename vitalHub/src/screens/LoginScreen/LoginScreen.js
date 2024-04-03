@@ -13,7 +13,8 @@ import { TextAccount } from "../../components/TextAccount/Style";
 import { AntDesign } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import api from "../../services/service";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
 import { userDecodeToken } from "../../utils/Auth";
 
 export const LoginScreen = ({ navigation }) => {
@@ -21,27 +22,24 @@ export const LoginScreen = ({ navigation }) => {
   const [senha, setSenha] = useState("1234");
   const [inProgress, setInProgress] = useState(false);
 
-  async function Login() {
-    if (!inProgress) {
-      setInProgress(false);
-      console.log("Passo 1");
-      await api
-        .post("/Login", {
-          email: email,
-          senha: senha,
-        })
-        .then(async (response) => {
-          console.log("Passo 2");
-          await AsyncStorage.setItem("token", JSON.stringify(response.data));
-          navigation.navigate("Main");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    } else {
-      return;
-    }
-  }
+  async function Login(){
+    await api.post('/Login',{
+        email: email,
+        senha:senha
+    }).then(async (response) =>{
+        await AsyncStorage.setItem("token", JSON.stringify(response.data))
+
+        navigation.navigate("Main")
+    }).catch(error =>{
+        console.log(error);
+    })
+
+    // navigation.navigate("Main")
+}
+
+async function profileLoad() {
+  userDecodeToken()
+}
 
   async function profileLoad() {
     const token = await userDecodeToken();
