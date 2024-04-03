@@ -13,7 +13,9 @@ import { InputLightSmall, FieldContentShort } from "./Style";
 import GpsView from "../../components/GpsView/GpsView";
 import { ButtonSecondary } from "../../components/Button/Style";
 import { Link } from "../../components/Link/Style";
-export const LocationScreen = ({navigation}) => {
+import { useEffect } from "react";
+export const LocationScreen = ({ navigation, route }) => {
+  useEffect(() => { console.log(route); }, [route.params])
   return (
     <Container>
       <GpsView />

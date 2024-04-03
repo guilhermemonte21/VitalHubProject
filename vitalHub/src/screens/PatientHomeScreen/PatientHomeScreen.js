@@ -41,17 +41,21 @@ export const PatientHomeScreen = ({ route, navigation }) => {
     }
 
 
-  // async function profileLoad() {
-  //   const token = await userDecodeToken()
-    
+  function MostrarModal(modal, consulta){
+    setConsultaSelecionada( consulta)
 
-  //   if (token =! null) {
 
-  //   console.log('1');
-  //     console.log(token)
-  //     console.log(token)
-  //     setProfile(token)
-  // }
+    if(modal == 'cancelar'){
+      setShowModalCancel(true)
+    }
+    else if(modal == 'prontuario')
+    {
+      setShowModalAppointment(true)
+    }
+    else{
+      setShowModalDoctor(true)
+    }
+  }
 
   }
 
@@ -72,6 +76,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
   const [consulta, setConsulta] = useState([])
   const [dataConsulta, setDataConsulta] = useState("")
   const [profile, setProfile] = useState({})
+  const [consultaSelecionada, setConsultaSelecionada] = useState(null)
 
 
   // async function getConsulta() {
@@ -97,7 +102,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
   const [statusLista, setStatusLista] = useState("pendente");
   const [showModalCancel, setShowModalCancel] = useState(false);
   const [showModalAppointment, setShowModalAppointment] = useState(false);
-  const [showModalDoctor, setShowModalDoctor] = useState(false);
+  const [showModalDoctor, setShowModalDoctor] = useState(true);
   return (
     
      <Container>
@@ -138,9 +143,9 @@ export const PatientHomeScreen = ({ route, navigation }) => {
                 dataConsulta={item.dataConsulta}
                 prioridade={item.prioridade.prioridade}
                 usuarioConsulta={profile.role == "Medico" ? item.paciente : item.medicoClinica.medico}
-                onPressCancel={setShowModalCancel}
-                onPressAppointment={setShowModalDoctor}>
-                
+                onPressCancel={() => MostrarModal('cancelar', item)}
+                onPressAppointment={() => MostrarModal('prontuario', item)}>
+                onPressDoctor={() => MostrarModal('', item)}
               </AppointmentCard>
             )
           }
@@ -156,6 +161,8 @@ export const PatientHomeScreen = ({ route, navigation }) => {
       {/* Modal de cancelamento */}
 
       <PatientAppointmentModal
+        consulta= {consultaSelecionada}
+        roleUsuario = {profile.role}
         visible={showModalAppointment}
         setShowModalAppointment={setShowModalAppointment}
         nav={() => navigation.navigate("SelectClinic")}
@@ -164,7 +171,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
       <DoctorModal
         visible={showModalDoctor}
         setShowModal={setShowModalDoctor}
-        nav={() => navigation.navigate("LocationScreen")}
+        navigation={() => navigation.navigate("LocationScreen")}
       />
 
       <CancellationModal

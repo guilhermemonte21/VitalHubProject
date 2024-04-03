@@ -27,9 +27,12 @@ export const DoctorModal = ({
   doctor = [],
   location,
   type,
-  nav,
+  navigation,
   ...rest
 }) => {
+  function handlePress(route) {
+    navigation.replace(route, { clinicaId : consulta.medicoClinica.clinicaId })
+  }
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
       <ModalContainer>
@@ -40,7 +43,7 @@ export const DoctorModal = ({
             <ModalTextSmall>Clínico Geral</ModalTextSmall>
             <ModalTextSmall>CRM-15286</ModalTextSmall>
           </RowContainer>
-          <ConfirmButton onPress={nav}>
+          <ConfirmButton onPress={navigation}>
             <ButtonTitle color={"#FFF"}>VER LOCAL DA CONSULTA</ButtonTitle>
           </ConfirmButton>
           <LinkButton onPress={() => setShowModal(false)}>
