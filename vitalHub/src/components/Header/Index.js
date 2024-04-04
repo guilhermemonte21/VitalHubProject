@@ -7,21 +7,18 @@ import { userDecodeToken } from "../../utils/Auth.js";
 import { useEffect, useState } from "react";
 
 export const Header1 = () => {
-  const [nome, setNome] = useState();
-  async function profileLoad() {
-    const token = await userDecodeToken();
+    
 
     const [nome, setNome] = useState()
     async function profileLoad() {
         const token = await userDecodeToken()
 
         if (token) {
-
-            // console.log(token)
+            console.log(token)
             setNome(token.name)
         }
     }
-  }
+  
 
   useEffect(() => {
     profileLoad();

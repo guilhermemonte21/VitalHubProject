@@ -21,6 +21,7 @@ import { Link } from "../Link/Style";
 import { Subtitle } from "../Subtitle/Style";
 
 export const DoctorModal = ({
+  medico,
   visible,
   setShowModal,
   date,
@@ -28,20 +29,21 @@ export const DoctorModal = ({
   location,
   type,
   navigation,
+  consulta,
   ...rest
 }) => {
   function handlePress(route) {
-    navigation.replace(route, { clinicaId : consulta.medicoClinica.clinicaId })
+    navigation.replace(route, { clinicaId: consulta.medicoClinica.clinicaId });
   }
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
       <ModalContainer>
         <ModalContent>
           <DoctorImg source={require("../../assets/DoctorImage.png")} />
-          <Title>Dr. Claudio</Title>
+          <Title>{consulta.medicoClinica.medico.idNavigation.nome}</Title>
           <RowContainer>
-            <ModalTextSmall>Clínico Geral</ModalTextSmall>
-            <ModalTextSmall>CRM-15286</ModalTextSmall>
+            <ModalTextSmall>{usuarioConsulta.especialidade.especialidade1}</ModalTextSmall>
+            <ModalTextSmall>CRM-{usuarioConsulta.crm}</ModalTextSmall>
           </RowContainer>
           <ConfirmButton onPress={() => handlePress("LocationScreen")}>
             <ButtonTitle color={"#FFF"}>VER LOCAL DA CONSULTA</ButtonTitle>

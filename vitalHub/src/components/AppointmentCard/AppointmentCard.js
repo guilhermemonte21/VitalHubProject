@@ -22,11 +22,8 @@ export const AppointmentCard = ({
   situacao,
   navigation,
   roleUsuario,
-  dataConsulta,
   prioridade,
   usuarioConsulta,
-  name,
-  age,
   profile,
   onPressCancel,
   onPressAppointment,
@@ -43,9 +40,9 @@ export const AppointmentCard = ({
         <DataProfileCard>
           <ProfileName>{usuarioConsulta.idNavigation.nome}</ProfileName>
           <ProfileData>
-            <TextAge>{roleUsuario == "Medico" ? "22 Anos" : usuarioConsulta.crm}</TextAge>
+            <TextAge>{roleUsuario == "Medico" ? "22 Anos" : `CRM-${usuarioConsulta.crm}` }</TextAge>
             <Entypo name="dot-single" size={3} color={"#D9D9D9"} />
-            <TextBold>{prioridade}</TextBold>
+            <TextBold>{prioridade == 0 ? "Rotina" : prioridade == 1 ? "Exame" : "Urgência"}</TextBold>
           </ProfileData>
 
           <ViewRow>

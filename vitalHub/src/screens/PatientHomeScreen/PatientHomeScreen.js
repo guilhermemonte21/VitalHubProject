@@ -25,20 +25,32 @@ import { userDecodeToken } from "../../utils/Auth";
 import moment from "moment";
 
 export const PatientHomeScreen = ({ route, navigation }) => {
+  const [consulta, setConsulta] = useState([]);
+  const [dataConsulta, setDataConsulta] = useState("");
+  const [profile, setProfile] = useState({});
+  const [consultaSelecionada, setConsultaSelecionada] = useState({});
+  const [statusLista, setStatusLista] = useState("pendente");
+  const [showModalCancel, setShowModalCancel] = useState(false);
+  const [showModalAppointment, setShowModalAppointment] = useState(false);
+  const [showModalDoctor, setShowModalDoctor] = useState(false);
+
   async function profileLoad() {
     const token = await userDecodeToken();
 
     if (token) {
       // console.log(token)
-      setProfile(token);
-      console.log(token);
+      await setProfile(token);
 
       setDataConsulta(moment().format("YYYY-MM-DD"));
     }
+  }
 
-    function MostrarModal(modal, consulta) {
-      setConsultaSelecionada(consulta);
-
+  function MostrarModal(modal, consulta) {
+    
+    console.log("normal");
+    console.log(consulta);
+    console.log("selecionado");
+    console.log(consultaSelecionada);
       if (modal == "cancelar") {
         setShowModalCancel(true);
       } else if (modal == "prontuario") {
@@ -46,44 +58,30 @@ export const PatientHomeScreen = ({ route, navigation }) => {
       } else {
         setShowModalDoctor(true);
       }
-    }
+      setConsultaSelecionada(consulta)
   }
 
   async function getConsultas() {
     const url = profile.role == "Medico" ? "Medicos" : "Pacientes";
-    
     await api
       .get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.id}`)
       .then((response) => {
-        console.log(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.id}`);
         setConsulta(response.data);
         console.log(response.data);
       })
       .catch((error) => console.log(error));
   }
 
-  // async function getConsulta() {
-  //   api.get("/Consultas").then(response => { setConsulta(response.data) }).catch(error => console.log(error))
-  // }
-
   useEffect(() => {
     profileLoad();
   }, []);
 
   useEffect(() => {
-    if (dataConsulta != "") {
+    if (dataConsulta !== "") {
       getConsultas();
     }
   }, [dataConsulta]);
 
-  const [consulta, setConsulta] = useState([]);
-  const [dataConsulta, setDataConsulta] = useState("");
-  const [profile, setProfile] = useState({});
-  const [consultaSelecionada, setConsultaSelecionada] = useState(null);
-  const [statusLista, setStatusLista] = useState("pendente");
-  const [showModalCancel, setShowModalCancel] = useState(false);
-  const [showModalAppointment, setShowModalAppointment] = useState(false);
-  const [showModalDoctor, setShowModalDoctor] = useState(false);
   return (
     <Container>
       <Header1 />
@@ -114,10 +112,9 @@ export const PatientHomeScreen = ({ route, navigation }) => {
           data={consulta}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) =>
-            // console.log( statusLista +"=="+ item.situacao.situacao )
             statusLista == item.situacao.situacao && (
               <AppointmentCard
-                situacao={item.situacao}
+                situacao={item.situacao.situacao}
                 navigation={navigation}
                 roleUsuario={profile.role}
                 dataConsulta={item.dataConsulta}
@@ -129,9 +126,8 @@ export const PatientHomeScreen = ({ route, navigation }) => {
                 }
                 onPressCancel={() => MostrarModal("cancelar", item)}
                 onPressAppointment={() => MostrarModal("prontuario", item)}
-              >
                 onPressDoctor={() => MostrarModal("", item)}
-              </AppointmentCard>
+              />
             )
           }
         />
@@ -157,11 +153,13 @@ export const PatientHomeScreen = ({ route, navigation }) => {
         visible={showModalDoctor}
         setShowModal={setShowModalDoctor}
         navigation={() => navigation.navigate("LocationScreen")}
-      />
+        consulta={consultaSelecionada}
+      /> 
 
       <CancellationModal
         visible={showModalCancel}
         setShowModal={setShowModalCancel}
+        consulta={consultaSelecionada}
       />
     </Container>
   );
