@@ -46,19 +46,15 @@ export const PatientHomeScreen = ({ route, navigation }) => {
   }
 
   function MostrarModal(modal, consulta) {
-    
-    console.log("normal");
-    console.log(consulta);
-    console.log("selecionado");
-    console.log(consultaSelecionada);
-      if (modal == "cancelar") {
-        setShowModalCancel(true);
-      } else if (modal == "prontuario") {
-        setShowModalAppointment(true);
-      } else {
-        setShowModalDoctor(true);
-      }
-      setConsultaSelecionada(consulta)
+    setConsultaSelecionada(consulta);
+
+    if (modal == "cancelar") {
+      setShowModalCancel(true);
+    } else if (modal == "prontuario") {
+      setShowModalAppointment(true);
+    } else {
+      setShowModalDoctor(true);
+    }
   }
 
   async function getConsultas() {
@@ -152,9 +148,9 @@ export const PatientHomeScreen = ({ route, navigation }) => {
       <DoctorModal
         visible={showModalDoctor}
         setShowModal={setShowModalDoctor}
-        navigation={() => navigation.navigate("LocationScreen")}
+        navigation={navigation}
         consulta={consultaSelecionada}
-      /> 
+      />
 
       <CancellationModal
         visible={showModalCancel}
