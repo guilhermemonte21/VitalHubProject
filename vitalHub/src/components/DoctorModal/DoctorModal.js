@@ -17,14 +17,11 @@ export const DoctorModal = ({
   visible,
   setShowModal,
   navigation,
-  consulta
+  consulta,
 }) => {
   useEffect(() => {
     console.log(consulta);
   }, []);
-  // function handlePress() {
-  //   navigation.navigate("LocationScreen", { clinicaId: consulta.medicoClinica.clinicaId });
-  // }
 
   return (
     <Modal visible={visible} transparent={true} animationType="fade">
@@ -32,16 +29,22 @@ export const DoctorModal = ({
         {consulta ? (
           <ModalContent>
             <DoctorImg source={require("../../assets/DoctorImage.png")} />
-            <Title></Title>
+            <Title>{consulta.medicoClinica.medico.idNavigation.nome}</Title>
             <RowContainer>
               <ModalTextSmall>
-                
+                {consulta.medicoClinica.medico.especialidade.especialidade1}
               </ModalTextSmall>
               <ModalTextSmall>
-                CRM-
+                CRM-{consulta.medicoClinica.medico.crm}
               </ModalTextSmall>
             </RowContainer>
-            <ConfirmButton onPress={() => handlePress}>
+            <ConfirmButton
+              onPress={() =>
+                navigation.replace("LocationScreen", {
+                  clinicaId: consulta.medicoClinica.clinicaId,
+                })
+              }
+            >
               <ButtonTitle color={"#FFF"}>VER LOCAL DA CONSULTA</ButtonTitle>
             </ConfirmButton>
             <LinkButton onPress={() => setShowModal(false)}>

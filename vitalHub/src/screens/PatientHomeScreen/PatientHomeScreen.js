@@ -28,7 +28,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
   const [consulta, setConsulta] = useState([]);
   const [dataConsulta, setDataConsulta] = useState("");
   const [profile, setProfile] = useState({});
-  const [consultaSelecionada, setConsultaSelecionada] = useState({});
+  const [consultaSelecionada, setConsultaSelecionada] = useState();
   const [statusLista, setStatusLista] = useState("pendente");
   const [showModalCancel, setShowModalCancel] = useState(false);
   const [showModalAppointment, setShowModalAppointment] = useState(false);
@@ -63,7 +63,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
       .get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.id}`)
       .then((response) => {
         setConsulta(response.data);
-        console.log(response.data);
+        console.log(response.data); 
       })
       .catch((error) => console.log(error));
   }
@@ -148,8 +148,8 @@ export const PatientHomeScreen = ({ route, navigation }) => {
       <DoctorModal
         visible={showModalDoctor}
         setShowModal={setShowModalDoctor}
-        navigation={navigation}
         consulta={consultaSelecionada}
+        navigation={navigation}
       />
 
       <CancellationModal
