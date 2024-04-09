@@ -63,7 +63,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
       .get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.id}`)
       .then((response) => {
         setConsulta(response.data);
-        console.log(response.data); 
+        console.log(response.data);
       })
       .catch((error) => console.log(error));
   }
@@ -110,6 +110,8 @@ export const PatientHomeScreen = ({ route, navigation }) => {
           renderItem={({ item }) =>
             statusLista == item.situacao.situacao && (
               <AppointmentCard
+                // descricao={item.descricao}
+                // observacoes={item.receita}
                 situacao={item.situacao.situacao}
                 navigation={navigation}
                 roleUsuario={profile.role}
@@ -121,7 +123,13 @@ export const PatientHomeScreen = ({ route, navigation }) => {
                     : item.medicoClinica.medico
                 }
                 onPressCancel={() => MostrarModal("cancelar", item)}
-                onPressAppointment={() => MostrarModal("prontuario", item)}
+                onPressAppointment={() =>
+                  navigation.replace("MedicalRecord", {
+                    descricao: item.descricao,
+                    medicamento: item.receita.medicamento,
+                    observacoes: item.receita.observacoes
+                  })
+                }
                 onPressDoctor={() => MostrarModal("", item)}
               />
             )

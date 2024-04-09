@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
-export const Input = styled.TextInput.attrs({
-  placeholderTextColor: "#34898f",
-})`
+export const Input = styled.TextInput`
   height: 53px;
   width: 90%;
   border: 2px solid #49b3ba;
@@ -27,6 +25,7 @@ export const InputSquare = styled(Input)`
 export const InputLight = styled(Input)`
   background-color: #f6f6f6;
   margin-top: 5px;
+  
 
   color: ${(props) => `${props.color}`};
   font-size: 14px;
@@ -38,20 +37,13 @@ export const InputLight = styled(Input)`
 export const InputLightEditable = styled(Input)`
   width: 100%;
   height: ${(props) => props.size}px;
-  background-color: "#eee";
+  background-color: #eeeeee;
   margin-top: 5px;
-
-  border-color: ${(props) => (props.empty == true ? "#49b3ba" : "#0000")};
-
+  border: 0;
   color: #4e4b59;
   font-size: 14px;
   color: #33303e;
-  font-family: MontserratAlternates_600SemiBold;
+  font-family: MontserratAlternates_500Medium;
   text-align: left;
   text-align-vertical: top;
-
-  ::placeholder {
-    color: #34898f;
-    font-family: MontserratAlternates_600SemiBold;
-  }
 `;

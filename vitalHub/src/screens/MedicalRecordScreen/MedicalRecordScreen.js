@@ -24,15 +24,47 @@ import { ButtonTextRed } from "../../components/AppointmentCard/Style";
 import { useEffect, useState } from "react";
 import { CameraModal } from "../../components/CameraModal/CameraModal";
 import { AntDesign } from "@expo/vector-icons";
+import { userDecodeToken } from "../../utils/Auth.js";
+import api from "../../services/service.js";
 
-export const MedicalRecordScreen = ({ navigation }) => {
+export const MedicalRecordScreen = ({ route, navigation }) => {
+  const { descricao, observacoes, medicamento } = route.params;
   const [showModal, setShowModal] = useState(false);
   const [uriCameraCapture, setUriCameraCapture] = useState(null);
+  const [userInfo, setUserInfo] = useState();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [age, setAge] = useState("")
   useEffect(() => {
     (async () => {
       console.log(uriCameraCapture);
     })();
   }, [uriCameraCapture]);
+
+  async function profileLoad() {
+    const token = await userDecodeToken();
+    if (token) {
+      setUserInfo(token);
+      setName(token.name);
+      setEmail(token.email);
+      calculateAge(token.id);
+    }
+  }
+
+  async function calculateAge(id) {
+    console.log("1");
+    await api.get(`/Pacientes/BuscarPorId?id=${id}`).then((response) => {
+      const bDate = response.data.dataNascimento;
+      const birthDate = new Date(bDate);
+      const difference = Date.now() - birthDate.getTime();
+      const age = new Date(difference);
+      setAge(age.getUTCFullYear() - 1970)
+    });
+  }
+
+  useEffect(() => {
+    profileLoad();
+  }, []);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <Container>
@@ -41,12 +73,10 @@ export const MedicalRecordScreen = ({ navigation }) => {
             source={require("../../assets/ProfileImgPlaceholder.png")}
           />
           <FieldContent>
-            <Title>Richard Kosta</Title>
+            <Title>{name}</Title>
             <ContainerRow>
-              <SubtitleDual color={"4E4B59"}>22 anos</SubtitleDual>
-              <SubtitleDual color={"4E4B59"}>
-                richard.kosta@gmail.com
-              </SubtitleDual>
+              <SubtitleDual color={"4E4B59"}>{age} anos</SubtitleDual>
+              <SubtitleDual color={"4E4B59"}>{email}</SubtitleDual>
             </ContainerRow>
           </FieldContent>
 
@@ -55,17 +85,23 @@ export const MedicalRecordScreen = ({ navigation }) => {
             lineCount={4}
             labelText={"Descrição da consulta"}
             placeholder={"Descrição"}
+            editable={false}
+            value={descricao}
           />
           <InputBox
             labelText={"Diagnóstico do paciente"}
             placeholder={"Diagnóstico"}
             height={53}
+            editable={false}
+            value={observacoes}
           />
           <InputBox
             height={121}
             lineCount={4}
             labelText={"Prescrição médica"}
             placeholder={"Prescrição médica"}
+            editable={false}
+            value={medicamento}
           />
           {uriCameraCapture === null ? (
             <PicturePlaceholder>

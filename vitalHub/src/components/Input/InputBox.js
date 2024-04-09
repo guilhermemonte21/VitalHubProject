@@ -9,12 +9,15 @@ export const InputBox = ({
   placeholder,
   maxLength,
   height,
+  editable = true,
+  value,
 }) => {
   const [text, setText] = useState("");
   return (
     <FieldContent>
       <InputLabel>{labelText}</InputLabel>
       <InputLightEditable
+        value={value}
         onChange={(e) => setText(e)}
         empty={text == "" ? true : false}
         multiline={lineCount > 1 ? true : false}
@@ -22,8 +25,8 @@ export const InputBox = ({
         placeholder={placeholder}
         maxLength={maxLength}
         numberOfLines={lineCount}
+        editable={editable}
       />
     </FieldContent>
   );
 };
-
