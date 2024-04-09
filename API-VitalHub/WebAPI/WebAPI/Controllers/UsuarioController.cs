@@ -31,5 +31,8 @@ namespace WebAPI.Controllers
 
             return Ok();
         }
+
+        [HttpPost("CriarPaciente")]
+        public IActionResult CriarContaUsuario() { }
     }
 }
