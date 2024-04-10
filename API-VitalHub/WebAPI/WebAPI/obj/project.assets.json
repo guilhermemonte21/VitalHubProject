@@ -3577,24 +3577,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\47417895867\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\6352573355\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\47417895867\\Desktop\\VitalHubProject\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
+      "projectUniqueName": "C:\\Users\\6352573355\\Desktop\\VitalHubProject\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
       "projectName": "WebAPI",
-      "projectPath": "C:\\Users\\47417895867\\Desktop\\VitalHubProject\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
-      "packagesPath": "C:\\Users\\47417895867\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\47417895867\\Desktop\\VitalHubProject\\API-VitalHub\\WebAPI\\WebAPI\\obj\\",
+      "projectPath": "C:\\Users\\6352573355\\Desktop\\VitalHubProject\\API-VitalHub\\WebAPI\\WebAPI\\WebAPI.csproj",
+      "packagesPath": "C:\\Users\\6352573355\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\6352573355\\Desktop\\VitalHubProject\\API-VitalHub\\WebAPI\\WebAPI\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\47417895867\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\6352573355\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3602,7 +3597,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3675,24 +3669,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[7.0.15, 7.0.15]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[7.0.15, 7.0.15]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[7.0.15, 7.0.15]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[7.0.15, 7.0.15]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
