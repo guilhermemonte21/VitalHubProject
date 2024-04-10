@@ -77,6 +77,10 @@ export const ProfileScreen = (route) => {
 
     }
   }
+
+  async function put(){
+    await api.put
+  }
   useEffect(() => {
     GetById()
   }, [])
