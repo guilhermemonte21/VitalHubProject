@@ -19,23 +19,70 @@ import { useEffect, useState } from "react";
 import api from "../../services/service";
 import { userDecodeToken } from "../../utils/Auth";
 
-export const ProfileScreen = () => {
+export const ProfileScreen = (route) => {
   const [nome, setNome] = useState()
   const [email, setEmail] = useState()
-  
-  async function profileLoad() {
-      const token = await userDecodeToken()
+  const [senha, setSenha] = useState()
+  const [cep, setCep] = useState()
+  const [cpf, setCpf] = useState()
+  const [Data, setData] = useState()
+  const [id, setId] = useState()
 
-      if (token) {
 
-          console.log(token)
-          setNome(token.name)
-          setEmail(token.email)
-      }
+  const Cadastro = async () => {
+    await api.post('/Pacientes', {
+      email: email,
+      senha: senha
+    })
+      .then((response) => {
+
+        Alert.alert("Sucesso", response.data.mensagem);
+
+
+        navigation.replace('Profile');
+
+      }).catch((e) => {
+
+        if (e.response) {
+
+          console.log("erro1");
+
+        } else {
+
+          console.log("erro2")
+
+        }
+      })
   }
 
+
+  async function GetById() {
+    await api.get(`/Paciente/BuscarPorId/?id=${id}`)
+      .then(response => (setCep(response.data))); 
+      console.log(cep);
+
+
+
+  }
+
+  async function profileLoad() {
+    const token = await userDecodeToken()
+
+    if (token) {
+
+      console.log(token)
+      setNome(token.name)
+      setEmail(token.email)
+      setId(token.id)
+
+    }
+  }
   useEffect(() => {
-      profileLoad()
+    GetById()
+  }, [])
+
+  useEffect(() => {
+    profileLoad()
   }, [])
   return (
     <>
@@ -50,7 +97,7 @@ export const ProfileScreen = () => {
         </FieldContent>
         <FieldContent>
           <InputLabel>CPF</InputLabel>
-          <InputLight color={"white"} placeholder={"*********-**"} maxLength={13}>859********</InputLight>
+          <InputLight color={"white"} placeholder={"*********-**"} maxLength={13}>{cep.cpf}</InputLight>
         </FieldContent>
         <FieldContent>
           <InputLabel>Endereço</InputLabel>
@@ -59,7 +106,7 @@ export const ProfileScreen = () => {
         <ContainerRow>
           <FieldContentSmall>
             <InputLabel>CEP</InputLabel>
-            <InputLight color={"white"} placeholder={"*****-***"} maxLength={11}>06548-909</InputLight>
+            <InputLight color={"white"} placeholder={"*****-***"} maxLength={11}>{cep}</InputLight>
           </FieldContentSmall>
           <FieldContentSmall>
             <InputLabel>Cidade</InputLabel>

@@ -94,7 +94,14 @@ namespace WebAPI.Controllers
         [HttpGet("BuscarPorData")]
         public IActionResult BuscarPorData(DateTime data, Guid id)
         {
-            return Ok(pacienteRepository.BuscarPorData(data,id));
+            return Ok(pacienteRepository.BuscarPorData(data, id));
         }
+
+        [HttpPut]
+        public IActionResult AtualizarPerfil(Guid Id,PacienteViewModel paciente) {
+            pacienteRepository.AtualizarPerfil(Id,paciente);
+            return Ok();
+        }
+
     }
 }

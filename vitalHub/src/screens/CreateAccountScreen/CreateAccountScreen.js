@@ -16,31 +16,39 @@ import api from "../../services/service";
 
 export const CreateAccountScreen = ({navigation}) => {
 
-  const [email, setEmail] = useState("")
+const [email, setEmail] = useState("")
 const [senha, setSenha] = useState("")
-  const Cadastro = async () => {
-    await api.post('/Usuarios', { email: email,
-      senha:senha })
-          .then((response) => { 
+const [id , setId] = useState("ACF079DE-DC46-4F76-A97D-0B9F4B538C8B")
+
+async function Cadastro(){
+await api.post('/Pacientes', { email: email,
+  senha:senha, idTipoUsuario: id })
+      .then((response) => { 
+
+        
+
+        console.log( response.data.mensagem);
+        navigation.navigation("Profile" ,{ 
+          email:email,senha:senha} )
+      }).catch((e) => {
+
+        if (e.response) {  
+
+          console.log("erro1");
+
+        } else { 
+
+         console.log("erro2")
+
+        }
+})
+      }
+
+
+      
     
-            Alert.alert("Sucesso", response.data.mensagem);
-    
-            
-            navigation.navigate('PatientHomeScreen');
-    
-          }).catch((err) => {
-    
-            if (err.response) {  
-    
-              Alert.alert("Ops", err.response.data.mensagem);
-    
-            } else { 
-    
-              Alert.alert("Erro");
-    
-            }
-    })
-          }
+  
+
   return (
     <Container>
       <Logo source={require("../../assets/VitalHub_Logo 1.png")} />
@@ -64,10 +72,10 @@ const [senha, setSenha] = useState("")
        placeholder="Confirmar senha" 
        />
 
-      <Button>
-        <ButtonTitle onPress={() => Cadastro()} color={"white"}>Cadastrar</ButtonTitle>
+      <Button onPress={() => Cadastro}>
+        <ButtonTitle  color={"white"}>Cadastrar</ButtonTitle>
       </Button>
-      <Link onPress={navigation.navigate("Login")} color={"#344F8F"}>Cancelar</Link>
+      <Link  color={"#344F8F"}>Cancelar</Link>
     </Container>
   );
-};
+      }
