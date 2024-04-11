@@ -6,10 +6,6 @@ import { StyledCalendarStrip } from "./Style";
 import { useState } from "react";
 
 export const CalendarHome = ({ setDataConsulta }) => {
-  
-
-
-
   //define padrão pt-br para calendário
   moment.updateLocale("pt-br", {
     //meses
@@ -53,7 +49,9 @@ export const CalendarHome = ({ setDataConsulta }) => {
 
   return (
     <StyledCalendarStrip
-      onDateSelected={date => setDataConsulta(moment(date).format('YYYY-MM-DD'))}
+      onDateSelected={(date) =>
+        setDataConsulta(moment(date).format("YYYY-MM-DD"))
+      }
       // animação e seleção de cada data
       calendarAnimation={{ type: "sequence", duration: 30 }}
       daySelectionAnimation={styles.selectedAnimationStyle}

@@ -14,45 +14,25 @@ import MapViewDirections from "react-native-maps-directions";
 
 import { mapskey } from "../../utils/mapsKey";
 
-export default function App() {
+export default function GpsView({latFinal, longFinal}) {
   const mapReference = useRef(null);
-  const [initialPosition, setInitialPosition] = useState(null);
-  const [finalPosition, setPosition] = useState({
-    latitude: -23.2447,
-    longitude: -46.264,
-  });
+  const [initialPosition, setInitialPosition] = useState();
+  const[latitudeFinal, setLatitudeFinal] = useState()
+  const[longitudeFinal, setLongitudeFinal] = useState()
 
   let colorScheme = useColorScheme();
-
-
-  async function CapturarLocalizacao() {
-    const { granted } = await requestForegroundPermissionsAsync();
-    console.log(granted);
-
-    if (granted) {
-      const currentPosition = await getLastKnownPositionAsync().catch((e) => {
-        console.log(e);
-      });
-      console.log(currentPosition);
-      await setInitialPosition(currentPosition);
-
-      console.log(initialPosition);
-    }
-
-    console.log("ainda nao foi");
-  }
 
   async function RecarregarVisualizacaoMapa() {
     if (mapReference.current && initialPosition) {
       await mapReference.current.fitToCoordinates(
         [
           {
-            latitude: initialPosition.coords.latitude,
-            longitude: initialPosition.coords.longitude,
+            latitude: initial.latitude,
+            longitude: initial.longitude,
           },
           {
-            latitude: finalPosition.latitude,
-            longitude: finalPosition.longitude,
+            latitude: latitudeFinal,
+            longitude: longitudeFinal,
           },
         ],
         {
@@ -64,7 +44,8 @@ export default function App() {
   }
 
   useEffect(() => {
-    CapturarLocalizacao();
+    setLatitudeFinal(latFinal)
+    setLongitudeFinal(longFinal)
     watchPositionAsync(
       {
         accuracy: LocationAccuracy.High,

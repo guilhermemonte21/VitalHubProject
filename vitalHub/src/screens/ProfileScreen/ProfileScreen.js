@@ -2,12 +2,16 @@ import {
   Container,
   ContainerRow,
   FieldContent,
-  FieldContentSmall
+  FieldContentSmall,
 } from "../../components/Container/Style";
-import { Image } from "react-native";
+import { Image, ScrollView } from "react-native";
 import { Logo } from "../../components/Logo/Style";
 import { Title } from "../../components/Title/Style";
-import { Input, InputLight } from "../../components/Input/Style";
+import {
+  Input,
+  InputLight,
+  InputLightEditable,
+} from "../../components/Input/Style";
 import { Button } from "../../components/Button/Style";
 import { ButtonTitle } from "../../components/ButtonTitle/Style";
 import { Subtitle, SubtitleHighlighted } from "../../components/Subtitle/Style";
@@ -18,7 +22,9 @@ import { InputLabel } from "../../components/Label/Style";
 import { useEffect, useState } from "react";
 import api from "../../services/service";
 import { userDecodeToken } from "../../utils/Auth";
+import { ProfileTitle } from "./Style";
 
+<<<<<<< HEAD
 export const ProfileScreen = (route) => {
   const [nome, setNome] = useState()
   const [email, setEmail] = useState()
@@ -53,6 +59,29 @@ export const ProfileScreen = (route) => {
 
         }
       })
+=======
+export const ProfileScreen = () => {
+  const [nome, setNome] = useState();
+  const [email, setEmail] = useState();
+  const [birth, setBirth] = useState();
+  const [cpf, setCpf] = useState();
+  const [endereco, setEndereco] = useState();
+  async function profileLoad() {
+    const token = await userDecodeToken();
+
+    if (token) {
+      console.log(token);
+      setNome(token.name);
+      setEmail(token.email);
+      await api
+        .get(`/Pacientes/BuscarPorId?id=${token.id}`)
+        .then((response) => {
+          setCpf(response.data.cpf);
+          setBirth(response.data.dataNascimento);
+          setEndereco(response.data.endereco);
+        });
+    }
+>>>>>>> develop
   }
 
 
@@ -82,19 +111,26 @@ export const ProfileScreen = (route) => {
     await api.put
   }
   useEffect(() => {
+<<<<<<< HEAD
     GetById()
   }, [])
 
   useEffect(() => {
     profileLoad()
   }, [])
+=======
+    profileLoad();
+  }, []);
+>>>>>>> develop
   return (
     <>
       <ProfileImg source={require("../../assets/ProfileImgPlaceholder.png")} />
-      <Container color={"#FBFBFB"}>
-        <Title>{nome}</Title>
-        <Subtitle color={"4E4B59"}>{email}</Subtitle>
+      <ScrollView>
+        <Container color={"#FBFBFB"}>
+          <ProfileTitle>{nome}</ProfileTitle>
+          <Subtitle color={"4E4B59"}>{email}</Subtitle>
 
+<<<<<<< HEAD
         <FieldContent>
           <InputLabel>Data de nascimento</InputLabel>
           <InputLight color={"white"} placeholder={"DD/MM/YYYY"} maxLength={10}>04/05/1999</InputLight>
@@ -118,6 +154,67 @@ export const ProfileScreen = (route) => {
           </FieldContentSmall>
         </ContainerRow>
       </Container>
+=======
+          <FieldContent>
+            <InputLabel>Data de nascimento</InputLabel>
+            <InputLightEditable
+              editable={false}
+              color={"white"}
+              placeholder={"DD/MM/YYYY"}
+              maxLength={10}
+            >
+              {birth ? birth : null}
+            </InputLightEditable>
+          </FieldContent>
+          <FieldContent>
+            <InputLabel>CPF</InputLabel>
+            <InputLightEditable
+              editable={false}
+              color={"white"}
+              placeholder={"*********-**"}
+              maxLength={13}
+            >
+              {cpf ? cpf : null}
+            </InputLightEditable>
+          </FieldContent>
+          <FieldContent>
+            <InputLabel>Endereço</InputLabel>
+            <InputLightEditable editable={false} color={"white"}>
+              {endereco ? `${endereco.logradouro}, ${endereco.numero}` : null}
+            </InputLightEditable>
+          </FieldContent>
+          <ContainerRow>
+            <FieldContentSmall>
+              <InputLabel>CEP</InputLabel>
+              <InputLightEditable
+                editable={false}
+                color={"white"}
+                placeholder={"*****-***"}
+                maxLength={11}
+              >
+                {endereco ? endereco.cep : null}
+              </InputLightEditable>
+            </FieldContentSmall>
+            <FieldContentSmall>
+              <InputLabel>Cidade</InputLabel>
+              <InputLightEditable
+                color={"white"}
+                editable={false}
+                placeholder={"*****-***"}
+              >
+                {endereco ? `${endereco.cidade}-SP` : null}
+              </InputLightEditable>
+            </FieldContentSmall>
+          </ContainerRow>
+          <Button>
+            <ButtonTitle color={"#FFFFFF"}>SALVAR</ButtonTitle>
+          </Button>
+          <Button>
+            <ButtonTitle color={"#FFFFFF"}>EDITAR</ButtonTitle>
+          </Button>
+        </Container>
+      </ScrollView>
+>>>>>>> develop
     </>
   );
 };

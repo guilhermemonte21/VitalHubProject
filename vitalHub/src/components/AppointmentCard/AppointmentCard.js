@@ -22,11 +22,8 @@ export const AppointmentCard = ({
   situacao,
   navigation,
   roleUsuario,
-  dataConsulta,
   prioridade,
   usuarioConsulta,
-  name,
-  age,
   profile,
   onPressCancel,
   onPressAppointment,
@@ -34,7 +31,7 @@ export const AppointmentCard = ({
 }) => {
   return (
     <ContainerCardsList>
-      <ButtonSecondary onPress={onPressDoctor}>
+      <ButtonSecondary onPress={() => onPressDoctor(true)}>
         <ProfileImage
           source={require("../../assets/ProfileImgPlaceholder.png")}
         />
@@ -43,9 +40,19 @@ export const AppointmentCard = ({
         <DataProfileCard>
           <ProfileName>{usuarioConsulta.idNavigation.nome}</ProfileName>
           <ProfileData>
-            <TextAge>{roleUsuario == "Medico" ? "22 Anos" : usuarioConsulta.crm}</TextAge>
+            <TextAge>
+              {roleUsuario == "Medico"
+                ? "22 Anos"
+                : `CRM-${usuarioConsulta.crm}`}
+            </TextAge>
             <Entypo name="dot-single" size={3} color={"#D9D9D9"} />
-            <TextBold>{prioridade}</TextBold>
+            <TextBold>
+              {prioridade <= 0
+                ? "Rotina"
+                : prioridade < 2
+                ? "Exame"
+                : "Urgência"}
+            </TextBold>
           </ProfileData>
 
           <ViewRow>
@@ -68,8 +75,8 @@ export const AppointmentCard = ({
                 <ButtonCard
                   onPress={
                     profile !== "Paciente"
-                      ? () => onPressAppointment(true)
-                      : () => navigation.navigate("MedicalRecord")
+                      ? () => onPressAppointment()
+                      : () => null
                   }
                 >
                   <ButtonText>Ver prontuário</ButtonText>

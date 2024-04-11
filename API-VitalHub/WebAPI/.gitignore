@@ -404,9 +404,10 @@ FodyWeavers.xsd
 bin/
 */bin/
 obj/
+*/obj/
 
 # Common node modules locations
 /node_modules
 /wwwroot/node_modules
 
-# End of https://www.toptal.com/developers/gitignore/a
+# End of https://www.toptal.com/developers/gitignore/api/dotnetcore,csharp

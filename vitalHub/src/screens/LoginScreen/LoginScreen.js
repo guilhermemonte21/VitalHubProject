@@ -18,8 +18,14 @@ import axios from "axios";
 import { userDecodeToken } from "../../utils/Auth";
 
 export const LoginScreen = ({ navigation }) => {
+<<<<<<< HEAD
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+=======
+  const [email, setEmail] = useState("rick@gmail.com");
+  const [senha, setSenha] = useState("1234");
+  const [inProgress, setInProgress] = useState(false);
+>>>>>>> develop
 
   async function Login(){
     await api.post('/Login',{
@@ -40,11 +46,19 @@ async function profileLoad() {
   userDecodeToken()
 }
 
-useEffect(() => {
-  profileLoad()
-}, [])
+  async function profileLoad() {
+    const token = await userDecodeToken();
 
+    if (token) {
+      console.log(token);
+    }
+  }
 
+  useEffect(() => {
+    profileLoad();
+  }, []);
+
+  // navigation.navigate("Main")
 
   return (
     <Container bgColor={"FAFAFA"}>
@@ -66,7 +80,7 @@ useEffect(() => {
         <Link color={"#8c8a97"}>Esqueceu sua senha?</Link>
       </ButtonSecondary>
 
-      <Button onPress={() => Login()}  >
+      <Button onPress={() => Login()}>
         <ButtonTitle color={"white"}>Entrar</ButtonTitle>
       </Button>
       <ButtonGoogle>
