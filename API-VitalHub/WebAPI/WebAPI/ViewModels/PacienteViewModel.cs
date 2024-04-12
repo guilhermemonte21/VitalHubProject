@@ -30,7 +30,7 @@ namespace WebAPI.ViewModels
 
         [NotMapped]
         [JsonIgnore]
-        public IFormFile Arquivo { get; set; }
+        public IFormFile? Arquivo { get; set; }
         public string? Foto { get; set; }
 
     }
