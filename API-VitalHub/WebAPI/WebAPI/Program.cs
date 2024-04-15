@@ -3,7 +3,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using WebAPI.Contexts;
+using WebAPI.Interfaces;
+using WebAPI.Repositories;
 using WebAPI.Utils.Mail;
+using WebAPI.Utils.OCR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -112,6 +115,10 @@ builder.Services.AddTransient<IEmailService, EmailService>();
 
 // Adiciona o EmailSendingService ao Scope
 builder.Services.AddScoped<EmailSendingService>();
+
+builder.Services.AddScoped<IExameRepository, ExameRepository>();
+
+builder.Services.AddScoped<OCRService>();
 
 // CORS
 builder.Services.AddCors(options =>
