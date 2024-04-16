@@ -5,6 +5,8 @@ using System.IdentityModel.Tokens.Jwt;
 using WebAPI.Domains;
 using WebAPI.Interfaces;
 using WebAPI.Repositories;
+using WebAPI.Utils.BlobStorage;
+using WebAPI.Utils.Mail;
 using WebAPI.ViewModels;
 
 namespace WebAPI.Controllers
@@ -14,6 +16,7 @@ namespace WebAPI.Controllers
     public class MedicosController : ControllerBase
     {
         private IMedicoRepository _medicoRepository;
+        private readonly EmailSendingService _emailSendingService;
         public MedicosController()
         {
             _medicoRepository = new MedicoRepository();
@@ -47,13 +50,21 @@ namespace WebAPI.Controllers
 
 
         [HttpPost]
-        public IActionResult Post(MedicoViewModel medicoModel)
+        public async Task<IActionResult> Post([FromForm] MedicoViewModel medicoModel)
         {
             Usuario user = new Usuario();
             user.Nome = medicoModel.Nome;
             user.Email = medicoModel.Email;
             user.TipoUsuarioId = medicoModel.IdTipoUsuario;
-            user.Foto = medicoModel.Foto;
+            // Define o nome do container do blob
+            var containerName = "containervitalhubg17-richard";
+
+            // Define a string de conexão
+            var connectionString = "DefaultEndpointsProtocol=https;AccountName=blobvitalhubg17richard;AccountKey=iF13hF+WCZPI2DvoIlaARpFsHcxZM7drICwQupCmtw1oD+LDvTmmeKhdkLpFA9Y4YohLyU8R+YsE+AStowgiBA==;EndpointSuffix=core.windows.net";
+
+
+            // Aqui vamos chamar o método para upload da image
+            user.Foto = await AzureBlobStorageHelper.UploadImageBlobAsync(medicoModel.Arquivo!, connectionString, containerName);
             user.Senha = medicoModel.Senha;
 
             user.Medico = new Medico();
@@ -67,6 +78,8 @@ namespace WebAPI.Controllers
             user.Medico.Endereco.Cep = medicoModel.Cep;
 
             _medicoRepository.Cadastrar(user);
+
+            await _emailSendingService.SendWelcomeEmail(user.Email, user.Nome!);
 
             return Ok();
         }
