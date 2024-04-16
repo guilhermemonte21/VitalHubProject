@@ -30,7 +30,7 @@ namespace WebAPI.Utils.Mail
             }
         }
         // Envio do e-mail de recuperação de senha
-        public async Task SendRecoveryEmail(string email, int codRecupSenha)
+        public async Task SendRecovery(string email, int codRecupSenha)
         {
             try
             {
