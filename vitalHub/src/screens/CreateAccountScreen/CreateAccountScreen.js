@@ -21,26 +21,22 @@ const [senha, setSenha] = useState("")
 const [id , setId] = useState("ACF079DE-DC46-4F76-A97D-0B9F4B538C8B")
 
 async function Cadastro(){
-await api.post('/Pacientes', { email: email,
+await api.post('/Pacientes/Cadastrar', { email: email,
   senha:senha, idTipoUsuario: id })
       .then((response) => { 
 
+        console.log(response);
+        console.log("oi")
         
-
-        console.log( response.data.mensagem);
         navigation.navigation("Profile" ,{ 
           email:email,senha:senha} )
-      }).catch((e) => {
+      }).catch((error) => {
 
-        if (e.response) {  
+       
 
-          console.log("erro1");
+          console.log(error);
 
-        } else { 
-
-         console.log("erro2")
-
-        }
+        
 })
       }
 

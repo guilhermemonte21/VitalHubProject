@@ -18,14 +18,10 @@ import axios from "axios";
 import { userDecodeToken } from "../../utils/Auth";
 
 export const LoginScreen = ({ navigation }) => {
-<<<<<<< HEAD
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-=======
-  const [email, setEmail] = useState("rick@gmail.com");
-  const [senha, setSenha] = useState("1234");
-  const [inProgress, setInProgress] = useState(false);
->>>>>>> develop
+
 
   async function Login(){
     await api.post('/Login',{

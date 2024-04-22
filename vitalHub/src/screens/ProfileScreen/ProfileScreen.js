@@ -22,44 +22,9 @@ import { InputLabel } from "../../components/Label/Style";
 import { useEffect, useState } from "react";
 import api from "../../services/service";
 import { userDecodeToken } from "../../utils/Auth";
-import { ProfileTitle } from "./Style";
-
-<<<<<<< HEAD
-export const ProfileScreen = (route) => {
-  const [nome, setNome] = useState()
-  const [email, setEmail] = useState()
-  const [senha, setSenha] = useState()
-  const [cep, setCep] = useState()
-  const [cpf, setCpf] = useState()
-  const [Data, setData] = useState()
-  const [id, setId] = useState()
+// import { ProfileTitle } from "./Style";
 
 
-  const Cadastro = async () => {
-    await api.post('/Pacientes', {
-      email: email,
-      senha: senha
-    })
-      .then((response) => {
-
-        Alert.alert("Sucesso", response.data.mensagem);
-
-
-        navigation.replace('Profile');
-
-      }).catch((e) => {
-
-        if (e.response) {
-
-          console.log("erro1");
-
-        } else {
-
-          console.log("erro2")
-
-        }
-      })
-=======
 export const ProfileScreen = () => {
   const [nome, setNome] = useState();
   const [email, setEmail] = useState();
@@ -81,7 +46,7 @@ export const ProfileScreen = () => {
           setEndereco(response.data.endereco);
         });
     }
->>>>>>> develop
+
   }
 
 
@@ -111,17 +76,14 @@ export const ProfileScreen = () => {
     await api.put
   }
   useEffect(() => {
-<<<<<<< HEAD
+
     GetById()
   }, [])
 
   useEffect(() => {
     profileLoad()
   }, [])
-=======
-    profileLoad();
-  }, []);
->>>>>>> develop
+
   return (
     <>
       <ProfileImg source={require("../../assets/ProfileImgPlaceholder.png")} />
@@ -130,31 +92,7 @@ export const ProfileScreen = () => {
           <ProfileTitle>{nome}</ProfileTitle>
           <Subtitle color={"4E4B59"}>{email}</Subtitle>
 
-<<<<<<< HEAD
-        <FieldContent>
-          <InputLabel>Data de nascimento</InputLabel>
-          <InputLight color={"white"} placeholder={"DD/MM/YYYY"} maxLength={10}>04/05/1999</InputLight>
-        </FieldContent>
-        <FieldContent>
-          <InputLabel>CPF</InputLabel>
-          <InputLight color={"white"} placeholder={"*********-**"} maxLength={13}>{cep.cpf}</InputLight>
-        </FieldContent>
-        <FieldContent>
-          <InputLabel>Endereço</InputLabel>
-          <InputLight color={"white"}>Rua Vicenso Silva, 987</InputLight>
-        </FieldContent>
-        <ContainerRow>
-          <FieldContentSmall>
-            <InputLabel>CEP</InputLabel>
-            <InputLight color={"white"} placeholder={"*****-***"} maxLength={11}>{cep}</InputLight>
-          </FieldContentSmall>
-          <FieldContentSmall>
-            <InputLabel>Cidade</InputLabel>
-            <InputLight color={"white"} placeholder={"*****-***"}>Moema-SP</InputLight>
-          </FieldContentSmall>
-        </ContainerRow>
-      </Container>
-=======
+
           <FieldContent>
             <InputLabel>Data de nascimento</InputLabel>
             <InputLightEditable
@@ -214,7 +152,7 @@ export const ProfileScreen = () => {
           </Button>
         </Container>
       </ScrollView>
->>>>>>> develop
+
     </>
   );
 };
