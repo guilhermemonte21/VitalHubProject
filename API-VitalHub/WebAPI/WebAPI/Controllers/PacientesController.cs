@@ -5,7 +5,11 @@ using System.IdentityModel.Tokens.Jwt;
 using WebAPI.Domains;
 using WebAPI.Interfaces;
 using WebAPI.Repositories;
+<<<<<<< HEAD
 using WebAPI.Utils.Blobs;
+=======
+using WebAPI.Utils.BlobStorage;
+>>>>>>> main
 using WebAPI.Utils.Mail;
 using WebAPI.ViewModels;
 
@@ -47,6 +51,7 @@ namespace WebAPI.Controllers
             return Ok(pacienteRepository.BuscarPorId(id));
         }
 
+<<<<<<< HEAD
 
         //public async Task<IActionResult> Post(PacienteViewModel pacienteModel)
         //{
@@ -133,6 +138,89 @@ namespace WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+=======
+        [HttpPost]
+        public async Task<IActionResult> Post([FromForm] PacienteViewModel pacienteModel)
+        {
+            try
+            {
+                // Objeto a ser cadastrado
+                Usuario user = new Usuario();
+
+                // Recebe os valores e preenche as propriedades do objeto
+                user.Nome = pacienteModel.Nome;
+                user.Email = pacienteModel.Email;
+                user.TipoUsuarioId = pacienteModel.IdTipoUsuario;
+
+
+                // Define o nome do container do blob
+                var containerName = "containervitalhubg17-richard";
+
+                // Define a string de conexão
+                var connectionString = "DefaultEndpointsProtocol=https;AccountName=blobvitalhubg17richard;AccountKey=iF13hF+WCZPI2DvoIlaARpFsHcxZM7drICwQupCmtw1oD+LDvTmmeKhdkLpFA9Y4YohLyU8R+YsE+AStowgiBA==;EndpointSuffix=core.windows.net";
+
+
+                // Aqui vamos chamar o método para upload da image
+                user.Foto = await AzureBlobStorageHelper.UploadImageBlobAsync(pacienteModel.Arquivo!, connectionString, containerName);
+
+                user.Senha = pacienteModel.Senha;
+
+
+                user.Paciente = new Paciente();
+                user.Paciente.DataNascimento = pacienteModel.DataNascimento;
+                user.Paciente.Rg = pacienteModel.Rg;
+                user.Paciente.Cpf = pacienteModel.Cpf;
+
+                user.Paciente.Endereco = new Endereco();
+                user.Paciente.Endereco.Logradouro = pacienteModel.Logradouro;
+                user.Paciente.Endereco.Numero = pacienteModel.Numero;
+                user.Paciente.Endereco.Cep = pacienteModel.Cep;
+                user.Paciente.Endereco.Cidade = pacienteModel.Cidade;
+
+                pacienteRepository.Cadastrar(user);
+
+                await _emailSendingService.SendWelcomeEmail(user.Email, user.Nome!);
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        //[HttpPost]
+        //public async Task<IActionResult> Post(PacienteViewModel pacienteModel)
+        //{
+        //    Usuario user = new Usuario();
+
+        //    user.Nome = pacienteModel.Nome;
+        //    user.Email = pacienteModel.Email;
+        //    user.TipoUsuarioId = pacienteModel.IdTipoUsuario;
+        //    user.Foto = pacienteModel.Foto;
+        //    user.Senha = pacienteModel.Senha;
+
+        //    user.Paciente = new Paciente();
+
+        //    user.Paciente.DataNascimento = pacienteModel.DataNascimento;
+        //    user.Paciente.Rg = pacienteModel.Rg;
+        //    user.Paciente.Cpf = pacienteModel.Cpf;
+
+        //    user.Paciente.Endereco = new Endereco();
+
+        //    user.Paciente.Endereco.Logradouro = pacienteModel.Logradouro;
+        //    user.Paciente.Endereco.Numero = pacienteModel.Numero;
+        //    user.Paciente.Endereco.Cep = pacienteModel.Cep;
+        //    user.Paciente.Endereco.Cidade = pacienteModel.Cidade;
+
+        //    pacienteRepository.Cadastrar(user);
+
+        //    await _emailSendingService.SendWelcomeEmail(user.Email!, user.Nome!);
+        //    return Ok();
+        //}
+
+>>>>>>> main
         [HttpGet("BuscarPorData")]
         public IActionResult GetByDate(DateTime data, Guid id)
         {

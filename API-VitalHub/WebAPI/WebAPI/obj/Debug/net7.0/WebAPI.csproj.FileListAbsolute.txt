@@ -180,6 +180,7 @@ C:\Users\47417895867\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\obj\Debu
 C:\Users\47417895867\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\obj\Debug\net7.0\WebAPI.pdb
 C:\Users\47417895867\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\obj\Debug\net7.0\WebAPI.genruntimeconfig.cache
 C:\Users\47417895867\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\obj\Debug\net7.0\ref\WebAPI.dll
+<<<<<<< HEAD
 C:\Users\6352573355\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\obj\Debug\net7.0\WebAPI.csproj.AssemblyReference.cache
 C:\Users\6352573355\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\obj\Debug\net7.0\WebAPI.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\6352573355\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\obj\Debug\net7.0\WebAPI.AssemblyInfoInputs.cache
@@ -274,3 +275,11 @@ C:\Users\6352573355\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\obj\Debug
 C:\Users\6352573355\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\bin\Debug\net7.0\Azure.Storage.Blobs.dll
 C:\Users\6352573355\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\bin\Debug\net7.0\Azure.Storage.Common.dll
 C:\Users\6352573355\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\bin\Debug\net7.0\System.IO.Hashing.dll
+=======
+C:\Users\47417895867\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\bin\Debug\net7.0\Azure.Storage.Blobs.dll
+C:\Users\47417895867\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\bin\Debug\net7.0\Azure.Storage.Common.dll
+C:\Users\47417895867\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\bin\Debug\net7.0\System.IO.Hashing.dll
+C:\Users\47417895867\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\bin\Debug\net7.0\Microsoft.Azure.CognitiveServices.Vision.ComputerVision.dll
+C:\Users\47417895867\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\bin\Debug\net7.0\Microsoft.Rest.ClientRuntime.dll
+C:\Users\47417895867\Desktop\VitalHubProject\API-VitalHub\WebAPI\WebAPI\bin\Debug\net7.0\Microsoft.Rest.ClientRuntime.Azure.dll
+>>>>>>> main
