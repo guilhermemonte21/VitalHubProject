@@ -5,11 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using WebAPI.Domains;
 using WebAPI.Interfaces;
 using WebAPI.Repositories;
-<<<<<<< HEAD
-using WebAPI.Utils.Blobs;
-=======
 using WebAPI.Utils.BlobStorage;
->>>>>>> main
 using WebAPI.Utils.Mail;
 using WebAPI.ViewModels;
 
@@ -51,94 +47,6 @@ namespace WebAPI.Controllers
             return Ok(pacienteRepository.BuscarPorId(id));
         }
 
-<<<<<<< HEAD
-
-        //public async Task<IActionResult> Post(PacienteViewModel pacienteModel)
-        //{
-        //    Usuario user = new Usuario();
-
-        //    user.Nome = pacienteModel.Nome;
-        //    user.Email = pacienteModel.Email;
-        //    user.TipoUsuarioId = pacienteModel.IdTipoUsuario;
-        //    user.Foto = pacienteModel.Foto;
-        //    user.Senha = pacienteModel.Senha;
-
-        //    user.Paciente = new Paciente();
-
-        //    user.Paciente.DataNascimento = pacienteModel.DataNascimento;
-        //    user.Paciente.Rg = pacienteModel.Rg;
-        //    user.Paciente.Cpf = pacienteModel.Cpf;
-
-        //    user.Paciente.Endereco = new Endereco();
-
-        //    user.Paciente.Endereco.Logradouro = pacienteModel.Logradouro;
-        //    user.Paciente.Endereco.Numero = pacienteModel.Numero;
-        //    user.Paciente.Endereco.Cep = pacienteModel.Cep;
-        //    user.Paciente.Endereco.Cidade = pacienteModel.Cidade;
-
-        //    pacienteRepository.Cadastrar(user);
-
-        //    await _emailSendingService.SendWelcomeEmail(user.Email!, user.Nome!);
-        //    return Ok();
-        //}
-        [HttpPost(".")]
-        public async Task<IActionResult> Post([FromForm]  PacienteViewModel pacienteModel)
-        {
-            try
-            {
-                //objeto a ser cadastrado
-                Usuario user = new Usuario();
-
-                //recebe os valores e preenche as propiedadesdo objeto
-
-                user.Nome = pacienteModel.Nome;
-                user.Email = pacienteModel.Email;
-                user.TipoUsuarioId = pacienteModel.IdTipoUsuario;
-
-
-                //define o nome do container do blob
-                var containerName = "containervitalhubtarde";
-
-                var connectionString = "DefaultEndpointsProtocol=https;AccountName=vitalhubmonte;AccountKey=bRaPkgOqxdlGJ5U8aNjG6rmsvrZxCueehle1DTD/mw6rLvkyyPw8SL8LGHKd2TpRRDKwsbRL1EPO+ASteGUK+g==;EndpointSuffix=core.windows.net";
-
-
-
-
-                //aqui vamos chamar o metodo para upload da imagem
-                user.Foto = await AzureBlobStorageHelper.UploadImageBlobAsync(pacienteModel.Arquivo, connectionString, containerName);
-
-
-
-
-
-
-                user.Senha = pacienteModel.Senha;
-
-                user.Paciente = new Paciente();
-
-                user.Paciente.DataNascimento = pacienteModel.DataNascimento;
-                user.Paciente.Rg = pacienteModel.Rg;
-                user.Paciente.Cpf = pacienteModel.Cpf;
-
-                user.Paciente.Endereco = new Endereco();
-
-                user.Paciente.Endereco.Logradouro = pacienteModel.Logradouro;
-                user.Paciente.Endereco.Numero = pacienteModel.Numero;
-                user.Paciente.Endereco.Cep = pacienteModel.Cep;
-                user.Paciente.Endereco.Cidade = pacienteModel.Cidade;
-
-                pacienteRepository.Cadastrar(user);
-
-                await _emailSendingService.SendWelcomeEmail(user.Email!, user.Nome!);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
-        }
-=======
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] PacienteViewModel pacienteModel)
         {
@@ -220,13 +128,9 @@ namespace WebAPI.Controllers
         //    return Ok();
         //}
 
->>>>>>> main
         [HttpGet("BuscarPorData")]
         public IActionResult GetByDate(DateTime data, Guid id)
         {
-
-            return Ok(pacienteRepository.BuscarPorData(data, id));
-
             try
             {
                 return Ok(pacienteRepository.BuscarPorData(data, id));
@@ -248,14 +152,6 @@ namespace WebAPI.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
-
-        [HttpPut]
-        public IActionResult AtualizarPerfil(Guid Id,PacienteViewModel paciente) {
-            pacienteRepository.AtualizarPerfil(Id,paciente);
-            return Ok();
-        }
-
     }
 }
