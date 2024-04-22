@@ -63,7 +63,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
       .get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.id}`)
       .then((response) => {
         setConsulta(response.data);
-        console.log(response.data);
+        console.log(response);
       })
       .catch((error) => console.log(error));
   }
@@ -125,9 +125,9 @@ export const PatientHomeScreen = ({ route, navigation }) => {
                 onPressCancel={() => MostrarModal("cancelar", item)}
                 onPressAppointment={() =>
                   navigation.replace("MedicalRecord", {
-                    descricao: item.descricao,
-                    medicamento: item.receita.medicamento,
-                    observacoes: item.receita.observacoes
+                    descricao : item.descricao,
+                    diagnostico : item.diagnostico,
+                    medicamento : item.descricao
                   })
                 }
                 onPressDoctor={() => MostrarModal("", item)}

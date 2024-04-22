@@ -22,7 +22,6 @@ import { InputLabel } from "../../components/Label/Style";
 import { useEffect, useState } from "react";
 import api from "../../services/service";
 import { userDecodeToken } from "../../utils/Auth";
-import { ProfileTitle } from "./Style";
 
 export const ProfileScreen = () => {
   const [nome, setNome] = useState();
@@ -55,7 +54,7 @@ export const ProfileScreen = () => {
       <ProfileImg source={require("../../assets/ProfileImgPlaceholder.png")} />
       <ScrollView>
         <Container color={"#FBFBFB"}>
-          <ProfileTitle>{nome}</ProfileTitle>
+          <Title>{nome}</Title>
           <Subtitle color={"4E4B59"}>{email}</Subtitle>
 
           <FieldContent>

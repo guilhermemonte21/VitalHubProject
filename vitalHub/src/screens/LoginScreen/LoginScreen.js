@@ -13,33 +13,36 @@ import { TextAccount } from "../../components/TextAccount/Style";
 import { AntDesign } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import api from "../../services/service";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { userDecodeToken } from "../../utils/Auth";
 
 export const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("rick@gmail.com");
-  const [senha, setSenha] = useState("1234");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [inProgress, setInProgress] = useState(false);
 
-  async function Login(){
-    await api.post('/Login',{
+  async function Login() {
+    await api
+      .post("/Login", {
         email: email,
-        senha:senha
-    }).then(async (response) =>{
-        await AsyncStorage.setItem("token", JSON.stringify(response.data))
+        senha: senha,
+      })
+      .then(async (response) => {
+        await AsyncStorage.setItem("token", JSON.stringify(response.data));
 
-        navigation.navigate("Main")
-    }).catch(error =>{
+        navigation.navigate("Main");
+      })
+      .catch((error) => {
         console.log(error);
-    })
+      });
 
     // navigation.navigate("Main")
-}
+  }
 
-async function profileLoad() {
-  userDecodeToken()
-}
+  async function profileLoad() {
+    userDecodeToken();
+  }
 
   async function profileLoad() {
     const token = await userDecodeToken();
@@ -71,7 +74,7 @@ async function profileLoad() {
         value={senha}
         onChangeText={(txt) => setSenha(txt)}
       />
-      <ButtonSecondary onPress={() => navigation.navigate("ForgotPassword())")}>
+      <ButtonSecondary onPress={() => navigation.navigate("ForgotPassword")}>
         <Link color={"#8c8a97"}>Esqueceu sua senha?</Link>
       </ButtonSecondary>
 
@@ -85,7 +88,7 @@ async function profileLoad() {
 
       <TextAccount color={"#4D659D"}>
         {"Não tem conta? "}{" "}
-        <ButtonSecondary onPress={() => navigation.navigate("CreateAccount()")}>
+        <ButtonSecondary onPress={() => navigation.navigate("CreateAccount")}>
           <Link color={"#4D659D"}>Crie uma conta agora!</Link>
         </ButtonSecondary>
       </TextAccount>

@@ -28,7 +28,7 @@ import { userDecodeToken } from "../../utils/Auth.js";
 import api from "../../services/service.js";
 
 export const MedicalRecordScreen = ({ route, navigation }) => {
-  const { descricao, observacoes, medicamento } = route.params;
+  const { consulta } = route.params;
   const [showModal, setShowModal] = useState(false);
   const [uriCameraCapture, setUriCameraCapture] = useState(null);
   const [userInfo, setUserInfo] = useState();
@@ -86,14 +86,14 @@ export const MedicalRecordScreen = ({ route, navigation }) => {
             labelText={"Descrição da consulta"}
             placeholder={"Descrição"}
             editable={false}
-            value={descricao}
+            value={consulta.descricao}
           />
           <InputBox
             labelText={"Diagnóstico do paciente"}
             placeholder={"Diagnóstico"}
             height={53}
             editable={false}
-            value={observacoes}
+            value={consulta.receita.observacoes}
           />
           <InputBox
             height={121}
@@ -101,7 +101,7 @@ export const MedicalRecordScreen = ({ route, navigation }) => {
             labelText={"Prescrição médica"}
             placeholder={"Prescrição médica"}
             editable={false}
-            value={medicamento}
+            value={consulta.receita.medicamento}
           />
           {uriCameraCapture === null ? (
             <PicturePlaceholder>
