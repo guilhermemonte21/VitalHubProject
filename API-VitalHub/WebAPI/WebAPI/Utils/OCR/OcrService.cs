@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
+﻿using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using Org.BouncyCastle.Security;
 
@@ -7,11 +6,11 @@ namespace WebAPI.Utils.OCR
 {
     public class OCRService
     {
-        private readonly string _subscriptKey = "24cac1e0831742db8ea717e83e907fa1";
+        private readonly string _subscriptKey = "4cade815ca09481aaed304d1cd48bc59";
 
-        private readonly string _endpoint = "https://cvvitalhubg17-richard.cognitiveservices.azure.com/";
+        private readonly string _endpoint = "https://cvvvitalhubg17guilherme.cognitiveservices.azure.com/";
 
-        public async Task<string> RecognizeTextAsync(Stream imageStream)
+        public async Task<string> RecognizeTextAsync (Stream imageStream)
         {
             try
             {
@@ -27,8 +26,10 @@ namespace WebAPI.Utils.OCR
             catch (Exception ex)
             {
 
-                return "Erro ao reconhecer o texto" + ex.Message;
+                return "Erro ao reconhecer o texto"+ ex.Message;
             }
+
+            
         }
         private static string ProcessRecognitionResult(OcrResult result)
         {
@@ -43,16 +44,18 @@ namespace WebAPI.Utils.OCR
                     {
                         foreach (var word in line.Words)
                         {
-                            recognizedText += word.Text + " ";
+                            recognizedText += word.Text + " " +
+                                "";
+
                         }
                         recognizedText += "\n";
                     }
                 }
                 return recognizedText;
-
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+
                 throw;
             }
         }
