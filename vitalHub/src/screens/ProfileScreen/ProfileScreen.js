@@ -4,7 +4,7 @@ import {
   FieldContent,
   FieldContentSmall,
 } from "../../components/Container/Style";
-import { Image, ScrollView } from "react-native";
+import { Image, ScrollView, View } from "react-native";
 import { Logo } from "../../components/Logo/Style";
 import { Title } from "../../components/Title/Style";
 import {
@@ -22,6 +22,9 @@ import { InputLabel } from "../../components/Label/Style";
 import { useEffect, useState } from "react";
 import api from "../../services/service";
 import { userDecodeToken } from "../../utils/Auth";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { CameraModal } from "../../components/CameraModal/CameraModal";
+import { ButtonCamera } from "./Style";
 
 export const ProfileScreen = () => {
   const [nome, setNome] = useState();
@@ -29,6 +32,21 @@ export const ProfileScreen = () => {
   const [birth, setBirth] = useState();
   const [cpf, setCpf] = useState();
   const [endereco, setEndereco] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [uriCameraCapture, setUriCameraCapture] = useState(null);
+
+  async function requestGaleria() {
+    await MediaLibrary.requestPermissionsAsync();
+    await ImagePicker.requestMediaLibraryPermissionsAsync();
+  }
+
+  useEffect(() => {
+    (async () => {
+      requestGaleria(); 
+      console.log(uriCameraCapture);
+    })();
+  }, [uriCameraCapture]);
+
   async function profileLoad() {
     const token = await userDecodeToken();
 
@@ -51,7 +69,18 @@ export const ProfileScreen = () => {
   }, []);
   return (
     <>
-      <ProfileImg source={require("../../assets/ProfileImgPlaceholder.png")} />
+      <View>
+        <ProfileImg
+          source={require("../../assets/ProfileImgPlaceholder.png")}
+        />
+        <ButtonCamera onPress={() => setShowModal(true)}>
+          <MaterialCommunityIcons
+            name="camera-plus"
+            size={20}
+            color={"#FFFFFF"}
+          />
+        </ButtonCamera>
+      </View>
       <ScrollView>
         <Container color={"#FBFBFB"}>
           <Title>{nome}</Title>
@@ -116,6 +145,12 @@ export const ProfileScreen = () => {
           </Button>
         </Container>
       </ScrollView>
+
+      <CameraModal
+        visible={showModal}
+        setUriCameraCapture={setUriCameraCapture}
+        setShowCamera={setShowModal}
+      />
     </>
   );
 };

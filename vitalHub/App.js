@@ -38,6 +38,8 @@ import {
 } from "@expo-google-fonts/quicksand";
 // Importar os recursos do expo-notification
 import * as Notifications from "expo-notifications";
+import * as MediaLibrary from "expo-media-library";
+import * as ImagePicker from "expo-image-picker";
 
 // Solicita permissões de notificação ao iniciar o app
 Notifications.requestPermissionsAsync();
@@ -72,8 +74,12 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
+
+  async function requestGaleria() {
+    await MediaLibrary.requestPermissionsAsync();
+    await ImagePicker.requestMediaLibraryPermissionsAsync();
+  }
   return (
-    
     //container - envolve toda a estrutura de navegacao
     //navigator - componente de navegacao
     //screen - tela

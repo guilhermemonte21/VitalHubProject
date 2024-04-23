@@ -24,7 +24,7 @@ export const CreateAccountScreen = ({navigation}) => {
       <Button>
         <ButtonTitle color={"white"}>Cadastrar</ButtonTitle>
       </Button>
-      <Link onPress={navigation.navigate("Login")} color={"#344F8F"}>Cancelar</Link>
+      <Link onPress={() => navigation.navigate("Login")} color={"#344F8F"}>Cancelar</Link>
     </Container>
   );
 };

@@ -17,12 +17,14 @@ export const CameraModal = ({
   visible,
   setUriCameraCapture,
   setShowCamera,
+  getMediaLibrary = false,
 }) => {
   const [tipoCamera, setTipoCamera] = useState(CameraType.back);
   const [focus, setFocus] = useState(AutoFocus.on);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const [openModal, setOpenModal] = useState(false);
   const [picture, setPicture] = useState(null);
+  const [lastPicture, setLastPicture] = useState();
   const cameraRef = useRef(null);
   useEffect(() => {
     (async () => {
@@ -33,13 +35,31 @@ export const CameraModal = ({
     })();
   }, []);
 
+  async function GetLatestPicture() {
+    const assets = await MediaLibrary.getAssetsAsync({
+      sortBy: [[MediaLibrary.SortBy.creationTime, false]],
+      first: 1,
+    });
+    if (assets.length > 0) {
+      setLastPicture(assets[0].uri)
+    }
+    console.log(assets);
+  }
+
+  useEffect(() => {
+    setPicture(null);
+    if (getMediaLibrary) {
+      getLatestPicture();
+    }
+  }, [visible]);
+
   // quando deletar removar da galeria
   // permitir foto com flash
   // botão para recarregar o autofocus
   // vídeo
   function handleClose() {
-    setOpenModal(false)
-    setShowCamera(false)
+    setOpenModal(false);
+    setShowCamera(false);
   }
 
   async function TakePicture() {

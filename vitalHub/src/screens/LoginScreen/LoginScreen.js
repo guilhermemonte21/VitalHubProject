@@ -18,8 +18,8 @@ import axios from "axios";
 import { userDecodeToken } from "../../utils/Auth";
 
 export const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [email, setEmail] = useState("rick2@gmail.com");
+  const [senha, setSenha] = useState("1234");
   const [inProgress, setInProgress] = useState(false);
 
   async function Login() {
@@ -36,8 +36,6 @@ export const LoginScreen = ({ navigation }) => {
       .catch((error) => {
         console.log(error);
       });
-
-    // navigation.navigate("Main")
   }
 
   async function profileLoad() {
@@ -56,8 +54,6 @@ export const LoginScreen = ({ navigation }) => {
     profileLoad();
   }, []);
 
-  // navigation.navigate("Main")
-
   return (
     <Container bgColor={"FAFAFA"}>
       <Logo source={require("../../assets/VitalHub_Logo 1.png")} />
@@ -74,7 +70,7 @@ export const LoginScreen = ({ navigation }) => {
         value={senha}
         onChangeText={(txt) => setSenha(txt)}
       />
-      <ButtonSecondary onPress={() => navigation.navigate("ForgotPassword")}>
+      <ButtonSecondary onPress={() => navigation.replace("ForgotPassword")}>
         <Link color={"#8c8a97"}>Esqueceu sua senha?</Link>
       </ButtonSecondary>
 
@@ -88,7 +84,7 @@ export const LoginScreen = ({ navigation }) => {
 
       <TextAccount color={"#4D659D"}>
         {"Não tem conta? "}{" "}
-        <ButtonSecondary onPress={() => navigation.navigate("CreateAccount")}>
+        <ButtonSecondary onPress={() => navigation.replace("CreateAccount")}>
           <Link color={"#4D659D"}>Crie uma conta agora!</Link>
         </ButtonSecondary>
       </TextAccount>

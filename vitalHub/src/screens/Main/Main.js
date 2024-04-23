@@ -13,9 +13,13 @@ import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { userDecodeToken } from "../../utils/Auth";
 
+
+
+
 const BottomTab = createBottomTabNavigator();
 
 export const Main = () => {
+
   return (
     <BottomTab.Navigator
       headerShown={false}
