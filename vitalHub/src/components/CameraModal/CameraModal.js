@@ -8,16 +8,21 @@ import {
   View,
 } from "react-native";
 import { AutoFocus, Camera, CameraType, FlashMode } from "expo-camera";
-import * as MediaLibrary from "expo-media-library";
 import { useEffect, useState, useRef } from "react";
 import { FontAwesome } from "@expo/vector-icons";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { LastPicture } from "./Style";
+
+import * as Notifications from "expo-notifications";
+import * as MediaLibrary from "expo-media-library";
+import * as ImagePicker from "expo-image-picker";
+
 
 export const CameraModal = ({
   visible,
   setUriCameraCapture,
   setShowCamera,
-  getMediaLibrary = false,
+  setPfp,
+  getMediaLibrary = true,
 }) => {
   const [tipoCamera, setTipoCamera] = useState(CameraType.back);
   const [focus, setFocus] = useState(AutoFocus.on);
@@ -25,6 +30,7 @@ export const CameraModal = ({
   const [openModal, setOpenModal] = useState(false);
   const [picture, setPicture] = useState(null);
   const [lastPicture, setLastPicture] = useState();
+  const [capturePicture, setCapturePicture] = useState();
   const cameraRef = useRef(null);
   useEffect(() => {
     (async () => {
@@ -36,20 +42,23 @@ export const CameraModal = ({
   }, []);
 
   async function GetLatestPicture() {
-    const assets = await MediaLibrary.getAssetsAsync({
+    const { assets } = await MediaLibrary.getAssetsAsync({
       sortBy: [[MediaLibrary.SortBy.creationTime, false]],
       first: 1,
     });
     if (assets.length > 0) {
-      setLastPicture(assets[0].uri)
+      console.log(":3");
+      setLastPicture(assets[0].uri);
     }
     console.log(assets);
   }
 
   useEffect(() => {
     setPicture(null);
+    console.log("3:");
     if (getMediaLibrary) {
-      getLatestPicture();
+      GetLatestPicture();
+      console.log(lastPicture);
     }
   }, [visible]);
 
@@ -78,7 +87,22 @@ export const CameraModal = ({
 
   async function UploadPicture() {
     await setUriCameraCapture(picture);
+    MediaLibrary.saveToLibraryAsync(picture);
+    console.log(picture);
+    setUriCameraCapture(picture.uri)
     handleClose();
+  }
+
+  async function SelectImageGallery() {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setPicture(result.assets[0].uri);
+      setOpenModal(true);
+    }
   }
 
   async function DeletePicture() {
@@ -131,6 +155,17 @@ export const CameraModal = ({
             onPress={() => TakePicture()}
           >
             <FontAwesome name="camera" size={24} color={"cyan"} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnFlip} onPress={() => SelectImageGallery}>
+            {lastPicture != null ? (
+              <LastPicture source={{ uri: lastPicture }}></LastPicture>
+            ) : null}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.btnCapture}
+            onPress={() => setShowCamera(false)}
+          >
+            <FontAwesome name="camera" size={24} color={"red"} />
           </TouchableOpacity>
         </View>
 

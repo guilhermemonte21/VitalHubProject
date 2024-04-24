@@ -25,9 +25,16 @@ import { userDecodeToken } from "../../utils/Auth";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { CameraModal } from "../../components/CameraModal/CameraModal";
 import { ButtonCamera } from "./Style";
+import * as MediaLibrary from "expo-media-library";
+import * as ImagePicker from "expo-image-picker";
 
 export const ProfileScreen = () => {
+  const [pfpSource, setPfpSource] = useState(
+    require("../../assets/ProfileImgPlaceholder.png")
+  );
+  const [id, setId] = useState();
   const [nome, setNome] = useState();
+  const [profile, setProfile] = useState();
   const [email, setEmail] = useState();
   const [birth, setBirth] = useState();
   const [cpf, setCpf] = useState();
@@ -36,13 +43,13 @@ export const ProfileScreen = () => {
   const [uriCameraCapture, setUriCameraCapture] = useState(null);
 
   async function requestGaleria() {
-    await MediaLibrary.requestPermissionsAsync();
-    await ImagePicker.requestMediaLibraryPermissionsAsync();
+    await MediaLibrary.requestMediaLibraryPermissionsAsync;
+    await ImagePicker.requestPermissionsAsync;
   }
 
   useEffect(() => {
     (async () => {
-      requestGaleria(); 
+      requestGaleria();
       console.log(uriCameraCapture);
     })();
   }, [uriCameraCapture]);
@@ -52,6 +59,7 @@ export const ProfileScreen = () => {
 
     if (token) {
       console.log(token);
+      setId(token.Id);
       setNome(token.name);
       setEmail(token.email);
       await api
@@ -64,15 +72,43 @@ export const ProfileScreen = () => {
     }
   }
 
+  async function ChangeProfilePicture() {
+    console.log(":D");
+    console.log(uriCameraCapture);
+    const formData = new FormData();
+    formData.append("Arquivo", {
+      uri: uriCameraCapture,
+      name: `image.${uriCameraCapture.split(".")[1]}`,
+      type: `image/${uriCameraCapture.split(".")[1]}`,
+    });
+
+    await api
+      .put(`/Usuario/AlterarFotoPerfil?id=${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   useEffect(() => {
     profileLoad();
   }, []);
+
+  useEffect(() => {
+    if (uriCameraCapture != null) {
+      ChangeProfilePicture();
+    }
+  }, [uriCameraCapture]);
   return (
     <>
       <View>
-        <ProfileImg
-          source={require("../../assets/ProfileImgPlaceholder.png")}
-        />
+        <ProfileImg source={pfpSource} />
         <ButtonCamera onPress={() => setShowModal(true)}>
           <MaterialCommunityIcons
             name="camera-plus"
@@ -150,6 +186,7 @@ export const ProfileScreen = () => {
         visible={showModal}
         setUriCameraCapture={setUriCameraCapture}
         setShowCamera={setShowModal}
+        setPfp={setPfpSource}
       />
     </>
   );
