@@ -28,18 +28,47 @@ import { userDecodeToken } from "../../utils/Auth.js";
 import api from "../../services/service.js";
 
 export const MedicalRecordScreen = ({ route, navigation }) => {
-  const { consulta } = route.params;
+  const { descricao, diagnostico, medicamento, consultaId } = route.params;
   const [showModal, setShowModal] = useState(false);
   const [uriCameraCapture, setUriCameraCapture] = useState(null);
+  const [descricaoExame, setDescricaoExame] = useState();
+  const [photo, setPhoto] = useState();
   const [userInfo, setUserInfo] = useState();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [age, setAge] = useState("")
+  const [age, setAge] = useState("");
+
   useEffect(() => {
-    (async () => {
-      console.log(uriCameraCapture);
-    })();
+    if (uriCameraCapture != null) {
+      inserirExame()
+    }
   }, [uriCameraCapture]);
+
+  async function inserirExame() {
+    const formData = new FormData();
+    formData.append("ConsultaId", consultaId);
+    formData.append("Image", {
+      uri: uriCameraCapture,
+      name: `image.${uriCameraCapture.split(".").pop()}`,
+      type: `image/${uriCameraCapture.split(".").pop()}`,
+    });
+
+    await api
+      .post(`/Exame/Cadastrar`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("rep");
+        console.log(response);
+        setPhoto(uriCameraCapture);
+        setDescricaoExame(descricaoExame + "\n" + response.data.descricao)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   async function profileLoad() {
     const token = await userDecodeToken();
@@ -58,7 +87,7 @@ export const MedicalRecordScreen = ({ route, navigation }) => {
       const birthDate = new Date(bDate);
       const difference = Date.now() - birthDate.getTime();
       const age = new Date(difference);
-      setAge(age.getUTCFullYear() - 1970)
+      setAge(age.getUTCFullYear() - 1970);
     });
   }
 
@@ -86,14 +115,14 @@ export const MedicalRecordScreen = ({ route, navigation }) => {
             labelText={"Descrição da consulta"}
             placeholder={"Descrição"}
             editable={false}
-            value={consulta.descricao}
+            value={descricao}
           />
           <InputBox
             labelText={"Diagnóstico do paciente"}
             placeholder={"Diagnóstico"}
             height={53}
             editable={false}
-            value={consulta.receita.observacoes}
+            value={diagnostico}
           />
           <InputBox
             height={121}
@@ -101,7 +130,7 @@ export const MedicalRecordScreen = ({ route, navigation }) => {
             labelText={"Prescrição médica"}
             placeholder={"Prescrição médica"}
             editable={false}
-            value={consulta.receita.medicamento}
+            value={medicamento}
           />
           {uriCameraCapture === null ? (
             <PicturePlaceholder>
@@ -111,7 +140,7 @@ export const MedicalRecordScreen = ({ route, navigation }) => {
           ) : (
             <PictureImg
               source={{
-                uri: uriCameraCapture,
+                uri: photo,
               }}
             />
           )}
@@ -130,7 +159,8 @@ export const MedicalRecordScreen = ({ route, navigation }) => {
             height={121}
             lineCount={4}
             labelText={""}
-            placeholder={"Descrição da consulta"}
+            placeholder={"Descrição dos exames"}
+            value={descricaoExame}
           />
 
           <Button>

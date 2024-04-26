@@ -16,7 +16,6 @@ import * as Notifications from "expo-notifications";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
 
-
 export const CameraModal = ({
   visible,
   setUriCameraCapture,
@@ -88,19 +87,23 @@ export const CameraModal = ({
   async function UploadPicture() {
     await setUriCameraCapture(picture);
     MediaLibrary.saveToLibraryAsync(picture);
-    console.log(picture);
-    setUriCameraCapture(picture.uri)
+    console.log("pic");
+    console.log(picture.uri);
+    setUriCameraCapture(picture.uri);
     handleClose();
   }
 
   async function SelectImageGallery() {
+    console.log(":D");
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
+    console.log(result);
 
     if (!result.canceled) {
       setPicture(result.assets[0].uri);
+
       setOpenModal(true);
     }
   }
@@ -156,7 +159,10 @@ export const CameraModal = ({
           >
             <FontAwesome name="camera" size={24} color={"cyan"} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btnFlip} onPress={() => SelectImageGallery}>
+          <TouchableOpacity
+            style={styles.btnFlip}
+            onPress={() => SelectImageGallery()}
+          >
             {lastPicture != null ? (
               <LastPicture source={{ uri: lastPicture }}></LastPicture>
             ) : null}

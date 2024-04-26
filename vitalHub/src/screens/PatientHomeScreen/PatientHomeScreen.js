@@ -125,6 +125,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
                 onPressCancel={() => MostrarModal("cancelar", item)}
                 onPressAppointment={() =>
                   navigation.replace("MedicalRecord", {
+                    consultaId : item.id,
                     descricao : item.descricao,
                     diagnostico : item.diagnostico,
                     medicamento : item.descricao

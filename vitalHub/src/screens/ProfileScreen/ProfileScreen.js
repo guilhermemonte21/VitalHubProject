@@ -34,7 +34,7 @@ export const ProfileScreen = () => {
   );
   const [id, setId] = useState();
   const [nome, setNome] = useState();
-  const [profile, setProfile] = useState();
+  const [photo, setPhoto] = useState();
   const [email, setEmail] = useState();
   const [birth, setBirth] = useState();
   const [cpf, setCpf] = useState();
@@ -55,16 +55,18 @@ export const ProfileScreen = () => {
   }, [uriCameraCapture]);
 
   async function profileLoad() {
+    
     const token = await userDecodeToken();
 
     if (token) {
       console.log(token);
-      setId(token.Id);
+      setId(token.jti);
       setNome(token.name);
       setEmail(token.email);
       await api
         .get(`/Pacientes/BuscarPorId?id=${token.id}`)
         .then((response) => {
+          setId(response.data.id);
           setCpf(response.data.cpf);
           setBirth(response.data.dataNascimento);
           setEndereco(response.data.endereco);
@@ -73,9 +75,11 @@ export const ProfileScreen = () => {
   }
 
   async function ChangeProfilePicture() {
-    console.log(":D");
-    console.log(uriCameraCapture);
+    profileLoad()
+    console.log(`/Usuario/AlterarFotoPerfil?id=${id}`);
+
     const formData = new FormData();
+
     formData.append("Arquivo", {
       uri: uriCameraCapture,
       name: `image.${uriCameraCapture.split(".")[1]}`,
@@ -89,7 +93,9 @@ export const ProfileScreen = () => {
         },
       })
       .then((response) => {
+        console.log("then");
         console.log(response);
+        setPhoto(uriCameraCapture);
       })
       .catch((error) => {
         console.log(error);
@@ -108,7 +114,7 @@ export const ProfileScreen = () => {
   return (
     <>
       <View>
-        <ProfileImg source={pfpSource} />
+        <ProfileImg source={{uri: photo}} />
         <ButtonCamera onPress={() => setShowModal(true)}>
           <MaterialCommunityIcons
             name="camera-plus"
