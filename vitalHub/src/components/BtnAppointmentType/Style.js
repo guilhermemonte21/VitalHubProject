@@ -31,7 +31,6 @@ export const ButtonTextStyle = styled.Text`
   font-size: 14px;
   font-family: "MontserratAlternates_600SemiBold";
   text-align: center;
-  vertical-text-align: center;
 
   ${(props) =>
     props.clickButton

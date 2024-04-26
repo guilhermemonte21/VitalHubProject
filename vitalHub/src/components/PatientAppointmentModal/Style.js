@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { InputLightEditable } from "../Input/Style";
+import { FieldContent } from "../Container/Style";
 
 export const PatientImage = styled.Image`
   width: 90%;
@@ -22,7 +23,11 @@ export const ModalContent = styled.View`
   padding: 30px 30px 10px;
   background-color: #fff;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
+`;
+
+export const ModalFieldContent = styled(FieldContent)`
+  gap: 15px;
 `;
 
 export const ModalText = styled.Text`

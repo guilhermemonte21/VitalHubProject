@@ -2,6 +2,7 @@ import { Modal } from "react-native";
 import {
   ModalContent,
   PatientModal,
+  ModalFieldContent,
   PatientImage,
   RowContainer,
   ButtonSmall,
@@ -16,63 +17,84 @@ import { InputLabel } from "../Label/Style";
 import { ContainerRow, FieldContent } from "../Container/Style";
 import { InputLight } from "../Input/Style";
 import { BtnListAppointment } from "../BtnListAppointment/BtnListAppointment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BtnAppointmentType } from "../BtnAppointmentType/BtnAppointmentType";
+import { ColumnContainer } from "../DoctorModal/Style";
 
 export const PatientAppointmentModal = ({
   visible,
+  setConsultaOriginal,
   setShowModalAppointment,
   nav,
   ...rest
 }) => {
-  const [appointmentType, setAppointmentType] = useState("rotina");
+  const [consultaEmCadastro, setConsultaEmCadastro] = useState({});
+  const [appointmentType, setAppointmentType] = useState(0);
+  const [preferredLocation, setPreferredLocation] = useState("");
+
+  useEffect(() => {
+    setConsultaEmCadastro({
+      propriedade: appointmentType,
+      preferredLocation: preferredLoc,
+    });
+    setConsultaOriginal(consultaEmCadastro)
+    console.log(consultaEmCadastro);
+  }, [preferredLoc]);
+
+  useEffect(() => {
+    setConsultaEmCadastro({
+      propriedade: appointmentType,
+      preferredLocation: preferredLoc,
+    });
+    setConsultaOriginal(consultaEmCadastro)
+    console.log(consultaEmCadastro);
+  }, [appointmentType]);
+
   async function set() {
-    setShowModalAppointment(false)
-    nav()
+    setShowModalAppointment(false);
+    nav();
   }
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
       <PatientModal>
         <ModalContent>
-          <Title>Agendar Consulta</Title>
-          <InputBox
-            labelText={"Informe o tipo de consulta"}
-            placeholder={"Tipo de consulta"}
-            height={53}
-          />
+          <ModalFieldContent>
+            <Title>Agendar Consulta</Title>
 
-          <FieldContent>
             <InputLabel>Qual o nível da consulta</InputLabel>
             <ContainerRow>
               <BtnAppointmentType
                 textButton={"Rotina"}
-                clickButton={appointmentType === "rotina"}
-                onPress={() => setAppointmentType("rotina")}
+                clickButton={appointmentType === 0}
+                onPress={() => setAppointmentType(0)}
               />
               <BtnAppointmentType
                 textButton={"Exame"}
-                clickButton={appointmentType === "exame"}
-                onPress={() => setAppointmentType("exame")}
+                clickButton={appointmentType === 1}
+                onPress={() => setAppointmentType(1)}
               />
               <BtnAppointmentType
                 textButton={"Urgência"}
-                clickButton={appointmentType === "urgencia"}
-                onPress={() => setAppointmentType("urgencia")}
+                clickButton={appointmentType === 2}
+                onPress={() => setAppointmentType(2)}
               />
             </ContainerRow>
-          </FieldContent>
 
-          <InputBox
-            labelText={"Informe a localização desejada"}
-            placeholder={"Informe a localização"}
-            height={53}
-          />
-          <Button onPress={() => set()}>
-            <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
-          </Button>
-          <ButtonSecondary onPress={() => setShowModalAppointment(false)}>
-            <Link color={"#344F8F"}>Cancelar</Link>
-          </ButtonSecondary>
+            <InputBox
+              labelText={"Informe a localização desejada"}
+              placeholder={"Informe a localização"}
+              height={53}
+              onChange={(txt) => setPreferredLocation(txt)}
+            />
+          </ModalFieldContent>
+          <ColumnContainer>
+            <Button onPress={() => set()}>
+              <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
+            </Button>
+            <ButtonSecondary onPress={() => setShowModalAppointment(false)}>
+              <Link color={"#344F8F"}>Cancelar</Link>
+            </ButtonSecondary>
+          </ColumnContainer>
         </ModalContent>
       </PatientModal>
     </Modal>

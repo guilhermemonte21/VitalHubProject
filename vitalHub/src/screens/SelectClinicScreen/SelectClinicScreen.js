@@ -7,24 +7,31 @@ import { ButtonTitle } from "../../components/ButtonTitle/Style";
 import { Link } from "../../components/Link/Style";
 import { ClinicCard } from "../../components/ClinicCard/ClinicCard";
 import api from "../../services/service";
-export const SelectClinicScreen = ({ navigation, setModal }) => {
-const [Clinic, setClinic] = useState([]);
+export const SelectClinicScreen = ({ navigation, setModal, route }) => {
+  const { consultaEmCadastro } = route.params;
 
+  const [Clinic, setClinic] = useState([]);
+
+  useEffect(() => {console.log(consultaEmCadastro);}, []);
   async function HandleReturn() {
-    await setModal(true);
-    navigation.navigate("Home");
+    navigation.replace("Home");
   }
   async function getClinic() {
-    api.get("/Clinica/ListarTodas").then(response => { setClinic(response.data) }).catch(error => console.log(error))
+    api
+      .get("/Clinica/ListarTodas")
+      .then((response) => {
+        setClinic(response.data);
+      })
+      .catch((error) => console.log(error));
   }
 
-
   useEffect(() => {
-    getClinic()
-  }, [])
+    getClinic();
+    console.log(consultaEmCadastro);
+  }, []);
 
   const [selectedClinic, setSelectedClinic] = useState(0);
-  
+
   return (
     <Container>
       <ScreenTitle>Selecionar Clínica</ScreenTitle>
@@ -35,7 +42,7 @@ const [Clinic, setClinic] = useState([]);
           <ClinicCard
             name={item.nomeFantasia}
             location={item.endereco.cidade}
-            
+
             // selected={selectedClinic == item.id ? true : false}
             // onPress={() => setSelectedClinic(item.id)}
           />
