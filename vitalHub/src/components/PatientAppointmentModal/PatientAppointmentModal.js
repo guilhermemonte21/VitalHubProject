@@ -25,34 +25,14 @@ export const PatientAppointmentModal = ({
   visible,
   setConsultaOriginal,
   setShowModalAppointment,
-  nav,
+  navigation,
   ...rest
 }) => {
-  const [consultaEmCadastro, setConsultaEmCadastro] = useState({});
-  const [appointmentType, setAppointmentType] = useState(0);
-  const [preferredLocation, setPreferredLocation] = useState("");
+  const [agendamento, setAgendamento] = useState(null);
 
-  useEffect(() => {
-    setConsultaEmCadastro({
-      propriedade: appointmentType,
-      preferredLocation: preferredLoc,
-    });
-    setConsultaOriginal(consultaEmCadastro)
-    console.log(consultaEmCadastro);
-  }, [preferredLoc]);
-
-  useEffect(() => {
-    setConsultaEmCadastro({
-      propriedade: appointmentType,
-      preferredLocation: preferredLoc,
-    });
-    setConsultaOriginal(consultaEmCadastro)
-    console.log(consultaEmCadastro);
-  }, [appointmentType]);
-
-  async function set() {
+  async function handleContinue() {
     setShowModalAppointment(false);
-    nav();
+    navigation.replace("SelectClinic", { agendamento: agendamento });
   }
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
@@ -65,18 +45,44 @@ export const PatientAppointmentModal = ({
             <ContainerRow>
               <BtnAppointmentType
                 textButton={"Rotina"}
-                clickButton={appointmentType === 0}
-                onPress={() => setAppointmentType(0)}
+                clickButton={
+                  agendamento ? agendamento.prioridadeId ===
+                  "8983DA22-E4E0-41F3-BF2B-C28137EBD41A" : null}
+                onPress={() =>
+                  setAgendamento({
+                    ...agendamento,
+                    prioridadeId: "8983DA22-E4E0-41F3-BF2B-C28137EBD41A",
+                    prioridadeLabel: "Rotina",
+                  })
+                }
               />
               <BtnAppointmentType
                 textButton={"Exame"}
-                clickButton={appointmentType === 1}
-                onPress={() => setAppointmentType(1)}
+                clickButton={
+                  agendamento ? agendamento.prioridadeId ===
+                  "DDA6658E-1510-440D-A1D8-2DCFBBAC758F" : null
+                }
+                onPress={() =>
+                  setAgendamento({
+                    ...agendamento,
+                    prioridadeId: "DDA6658E-1510-440D-A1D8-2DCFBBAC758F",
+                    prioridadeLabel: "Exame",
+                  })
+                }
               />
               <BtnAppointmentType
                 textButton={"Urgência"}
-                clickButton={appointmentType === 2}
-                onPress={() => setAppointmentType(2)}
+                clickButton={
+                  agendamento ? agendamento.prioridadeId ===
+                  "8E5522B5-2BF1-4B3F-8CB4-B8DBDAB3FE04" : null
+                }
+                onPress={() =>
+                  setAgendamento({
+                    ...agendamento,
+                    prioridadeId: "8E5522B5-2BF1-4B3F-8CB4-B8DBDAB3FE04",
+                    prioridadeLabel: "Urgência",
+                  })
+                }
               />
             </ContainerRow>
 
@@ -84,11 +90,14 @@ export const PatientAppointmentModal = ({
               labelText={"Informe a localização desejada"}
               placeholder={"Informe a localização"}
               height={53}
-              onChange={(txt) => setPreferredLocation(txt)}
+              value={agendamento ? agendamento.localizacao : null}
+              onChange={(txt) =>
+                setAgendamento({ ...agendamento, localizacao: txt })
+              }
             />
           </ModalFieldContent>
           <ColumnContainer>
-            <Button onPress={() => set()}>
+            <Button onPress={() => handleContinue()}>
               <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
             </Button>
             <ButtonSecondary onPress={() => setShowModalAppointment(false)}>

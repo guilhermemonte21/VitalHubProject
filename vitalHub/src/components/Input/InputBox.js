@@ -19,7 +19,7 @@ export const InputBox = ({
       <InputLabel>{labelText}</InputLabel>
       <InputLightEditable
         value={value}
-        onChange={(e) => onChange(e)}
+        onChangeText={(e) => onChange(e)}
         empty={text == "" ? true : false}
         multiline={lineCount > 1 ? true : false}
         size={height}

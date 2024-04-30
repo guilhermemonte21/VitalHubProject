@@ -7,38 +7,50 @@ import { SelectDateTitle } from "./Style";
 import { Dropdown } from "../../components/Dropdown/Dropdown";
 import { DateContainer } from "./Style";
 import { AppointmentConfirmModal } from "../../components/AppointmentConfirmModal/AppointmentConfirmModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const SelectDateScreen = ({navigation}) => {
-  const Horarios = [
-    { id: 0, value: "10:00", label: "10:00" },
-    { id: 1, value: "11:00", label: "11:00" },
-    { id: 2, value: "12:00", label: "12:00" },
-    { id: 3, value: "13:00", label: "13:00" },
-  ];
+export const SelectDateScreen = ({ navigation, route }) => {
+  const [agendamento, setAgendamento] = useState();
+  const [dataSelecionada, setDataSelecionada] = useState();
+  const [horaSelecionada, setHoraSelecionada] = useState();
   const [showModal, setShowModal] = useState(false);
+
+
+
+  async function handleContinue() {
+    await setAgendamento({
+      ...route.params.agendamento,
+      dataConsulta: `${dataSelecionada} ${horaSelecionada}`,
+    });
+    setShowModal(true);
+  }
+  useEffect(() => {
+    console.log(route);
+  }, [route]);
+
   return (
     <DateContainer>
       <SelectDateTitle>Selecionar Data</SelectDateTitle>
-      <CalendarComponent />
+      <CalendarComponent
+        setDataSelecionada={setDataSelecionada}
+        dataSelecionada={dataSelecionada}
+      />
       <Dropdown
-        content={Horarios}
+        setHoraSelecionada={setHoraSelecionada}
+        horaSelecionada={horaSelecionada}
         labelText={"Selecione um horário disponível"}
       />
-      <Button onPress={() => setShowModal(true)}>
+      <Button onPress={() => handleContinue()}>
         <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
       </Button>
-      <ButtonSecondary onPress={() => navigation.navigate("Home")}>
+      <ButtonSecondary onPress={() => navigation.replace("SelectDoctor")}>
         <Link color={"#344F8F"}>Cancelar</Link>
       </ButtonSecondary>
       <AppointmentConfirmModal
+        agendamento={agendamento}
         visible={showModal}
-        date={"1 de Novembro de 2023"}
-        doctor={{id: 0, name: "Dra Alessandra", specialty: "Dermatologa, Esteticista"}}
-        location={"São Paulo, SP"}
-        type={"Rotina"}
         setShowModal={() => setShowModal(false)}
-        nav={() => navigation.navigate("SelectDoctor")}
+        navigation={navigation}
       />
     </DateContainer>
   );

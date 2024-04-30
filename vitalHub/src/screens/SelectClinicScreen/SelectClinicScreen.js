@@ -8,17 +8,27 @@ import { Link } from "../../components/Link/Style";
 import { ClinicCard } from "../../components/ClinicCard/ClinicCard";
 import api from "../../services/service";
 export const SelectClinicScreen = ({ navigation, setModal, route }) => {
-  const { consultaEmCadastro } = route.params;
+  const { agendamento } = route.params;
 
   const [Clinic, setClinic] = useState([]);
+  const [selectedClinic, setSelectedClinic] = useState({});
 
-  useEffect(() => {console.log(consultaEmCadastro);}, []);
-  async function HandleReturn() {
-    navigation.replace("Home");
+  async function handleReturn() {
+    navigation.navigate("Home");
   }
+
+  async function handleContinue() {
+    navigation.replace("SelectDoctor", {
+      agendamento: {
+        ...route.params.agendamento,
+        ...selectedClinic,
+      },
+    });
+  }
+
   async function getClinic() {
     api
-      .get("/Clinica/ListarTodas")
+      .get(`/Clinica/BuscarPorCidade?cidade=${agendamento.localizacao}`)
       .then((response) => {
         setClinic(response.data);
       })
@@ -27,10 +37,8 @@ export const SelectClinicScreen = ({ navigation, setModal, route }) => {
 
   useEffect(() => {
     getClinic();
-    console.log(consultaEmCadastro);
-  }, []);
-
-  const [selectedClinic, setSelectedClinic] = useState(0);
+    console.log(route);
+  }, [route]);
 
   return (
     <Container>
@@ -42,13 +50,23 @@ export const SelectClinicScreen = ({ navigation, setModal, route }) => {
           <ClinicCard
             name={item.nomeFantasia}
             location={item.endereco.cidade}
-
-            // selected={selectedClinic == item.id ? true : false}
-            // onPress={() => setSelectedClinic(item.id)}
+            selected={
+              selectedClinic
+                ? selectedClinic.id === item.id
+                  ? true
+                  : false
+                : false
+            }
+            onPress={() =>
+              setSelectedClinic({
+                clinicaId: item.id,
+                clinicaLabel: item.nomeFantasia,
+              })
+            }
           />
         )}
       />
-      <Button onPress={() => navigation.navigate("SelectDoctor")}>
+      <Button onPress={() => handleContinue()}>
         <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
       </Button>
       <ButtonSecondary onPress={() => HandleReturn()}>

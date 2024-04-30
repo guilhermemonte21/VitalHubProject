@@ -154,7 +154,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
         setShowModalAppointment={setShowModalAppointment}
         setConsultaOriginal={setConsultaOriginal}
         route={route}
-        nav={() => navigation.replace("SelectClinic", {consultaEmCadastro: consultaOriginal})}
+        navigation={navigation}
       />
 
       <DoctorModal
