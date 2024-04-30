@@ -15,7 +15,9 @@ export const SelectDateScreen = ({ navigation, route }) => {
   const [horaSelecionada, setHoraSelecionada] = useState();
   const [showModal, setShowModal] = useState(false);
 
-
+  async function handleReturn() {
+    navigation.navigate("Main");
+  }
 
   async function handleContinue() {
     await setAgendamento({
@@ -43,7 +45,7 @@ export const SelectDateScreen = ({ navigation, route }) => {
       <Button onPress={() => handleContinue()}>
         <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
       </Button>
-      <ButtonSecondary onPress={() => navigation.replace("SelectDoctor")}>
+      <ButtonSecondary onPress={() => handleReturn()}>
         <Link color={"#344F8F"}>Cancelar</Link>
       </ButtonSecondary>
       <AppointmentConfirmModal

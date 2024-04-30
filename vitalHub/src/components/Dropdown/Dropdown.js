@@ -9,19 +9,34 @@ export const Dropdown = ({ labelText, content = [], setHoraSelecionada }) => {
   const dataAtual = moment().format("YYYY-MM-DD");
   const [arrayOptions, setArrayOptions] = useState(null);
 
-  useEffect(() => {
-    loadOptions();
-  }, []);
   async function loadOptions() {
+    //Capturar a quantidade que faltam para 24h
+
     const horasRestantes = moment(dataAtual)
       .add(24, "hours")
       .diff(moment(), "hours");
+
+    console.log(horasRestantes);
+
+    //Criar um laço que rode a quantidade de horas
+
     const options = Array.from({ length: horasRestantes }, (_, index) => {
-      valor = new Date().getHours() + (index + 1);
-      return { label: `${valor}:00:00`, value: valor };
+      let valor = new Date().getHours() + (index + 1);
+
+      //Pra cada hora será uma nova option
+
+      return {
+        label: `${valor}:00`,
+        value: `${valor}:00`,
+      };
     });
+
     setArrayOptions(options);
   }
+
+  useEffect(() => {
+    loadOptions();
+  }, []);
 
   const [phold, setPhold] = useState();
   return (

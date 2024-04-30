@@ -15,6 +15,10 @@ export const SelectDoctorScreen = ({ navigation, route }) => {
   const [Doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState({});
 
+  async function handleReturn() {
+    navigation.navigate("Main");
+  }
+
   async function handleContinue() {
     navigation.replace("SelectDate", {
       agendamento: {
@@ -70,7 +74,7 @@ export const SelectDoctorScreen = ({ navigation, route }) => {
       <Button onPress={() => handleContinue()}>
         <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
       </Button>
-      <ButtonSecondary onPress={() => navigation.navigate("SelectClinic")}>
+      <ButtonSecondary onPress={() => handleReturn()}>
         <Link color={"#344F8F"}>Cancelar</Link>
       </ButtonSecondary>
     </Container>
