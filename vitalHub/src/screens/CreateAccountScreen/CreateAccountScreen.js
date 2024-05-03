@@ -18,32 +18,55 @@ export const CreateAccountScreen = ({navigation}) => {
 
 const [email, setEmail] = useState("")
 const [senha, setSenha] = useState("")
+const [confirmarSenha, setConfirmarSenha] = useState("")
 const [id , setId] = useState("ACF079DE-DC46-4F76-A97D-0B9F4B538C8B")
 
-async function Cadastro(){
-await api.post('/Pacientes/Cadastrar', { email: email,
-  senha:senha, idTipoUsuario: id })
-      .then((response) => { 
+const Cadastro = async () => {
+  try {
 
+    if (senha === confirmarSenha) {
+
+        const form = new FormData()
+
+        
+        form.append("email", `${email}`);
+        form.append("senha", `${senha}`);
+        form.append("idTipoUsuario", `415320A4-9FB0-43B3-A267-1073183B9770`);
+
+        const response = await api.post('/Pacientes', form, {
+
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+
+            
+        }
+        
+        );
         console.log(response);
-        console.log("oi")
-        
-        navigation.navigation("Profile" ,{ 
-          email:email,senha:senha} )
-      }).catch((error) => {
+        if (response.data.success) {
+           console.log("eeee");
+        }
 
-       
+        //Após o cadastro, vai redirecionar para a tela de Login ( Se Deus quiser )
 
-          console.log(error);
+        navigation.replace("Login");
 
-        
-})
-      }
+    } else {
 
+        alert("As senhas não coincidem");
+}}
+ catch (error) {
+  if (error.response) {
+      console.error('Erro ao cadastrar:', error.response.data);
+  } else if (error.request) {
+      console.error('Erro de requisição:', error.request);
+  } else {
+      console.error('Erro ao configurar:', error.message);
+  }
+}
+};
 
-      
-    
-  
 
   return (
     <Container>
@@ -64,11 +87,12 @@ await api.post('/Pacientes/Cadastrar', { email: email,
       placeholder="Senha"
       onChangeText={(txt) => setSenha(txt)} />
       <Input 
-      // value = {senha}
+      value = {confirmarSenha}
        placeholder="Confirmar senha" 
+       onChangeText={(txt) => setConfirmarSenha(txt)}
        />
 
-      <Button onPress={() => Cadastro}>
+      <Button onPress={() => Cadastro()}>
         <ButtonTitle  color={"white"}>Cadastrar</ButtonTitle>
       </Button>
       <Link  color={"#344F8F"}>Cancelar</Link>

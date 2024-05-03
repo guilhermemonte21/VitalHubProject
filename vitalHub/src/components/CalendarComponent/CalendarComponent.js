@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-export const CalendarComponent = () => {
+export const CalendarComponent = ({setDataSelecionada, dataSelecionada}) => {
   LocaleConfig.locales.br = {
     monthNames: [
       "Janeiro",
@@ -45,8 +45,6 @@ export const CalendarComponent = () => {
 
   LocaleConfig.defaultLocale = "br";
 
-  const [selected, setSelected] = useState("");
-
   return (
     <Calendar
       style={{
@@ -68,10 +66,10 @@ export const CalendarComponent = () => {
       }}
       // Mark specific dates as marked
       onDayPress={(day) => {
-        setSelected(day.dateString);
+        setDataSelecionada(day.dateString);
       }}
       markedDates={{
-        [selected]: {
+        [dataSelecionada]: {
           selected: true,
           disableTouchEvent: true,
           selectedDotColor: "orange",

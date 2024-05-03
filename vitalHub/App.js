@@ -25,6 +25,11 @@ import { LocationScreen } from "./src/screens/LocationScreen/LocationScreen";
 import { Main } from "./src/screens/Main/Main";
 import MapViewDirections from "react-native-maps-directions";
 import { StyleSheet } from "react-native";
+
+import * as Notifications from "expo-notifications";
+import * as MediaLibrary from "expo-media-library";
+import * as ImagePicker from "expo-image-picker";
+
 import {
   useFonts,
   MontserratAlternates_500Medium,
@@ -37,7 +42,7 @@ import {
   Quicksand_600SemiBold,
 } from "@expo-google-fonts/quicksand";
 // Importar os recursos do expo-notification
-import * as Notifications from "expo-notifications";
+
 
 // Solicita permissões de notificação ao iniciar o app
 Notifications.requestPermissionsAsync();
@@ -72,8 +77,12 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
+
+  async function requestGaleria() {
+    await MediaLibrary.requestPermissionsAsync();
+    await ImagePicker.requestMediaLibraryPermissionsAsync();
+  }
   return (
-    
     //container - envolve toda a estrutura de navegacao
     //navigator - componente de navegacao
     //screen - tela

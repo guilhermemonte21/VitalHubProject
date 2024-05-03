@@ -33,6 +33,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
   const [showModalCancel, setShowModalCancel] = useState(false);
   const [showModalAppointment, setShowModalAppointment] = useState(false);
   const [showModalDoctor, setShowModalDoctor] = useState(false);
+  const [consultaOriginal, setConsultaOriginal] = useState({});
 
   async function profileLoad() {
     const token = await userDecodeToken();
@@ -63,7 +64,7 @@ export const PatientHomeScreen = ({ route, navigation }) => {
       .get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.id}`)
       .then((response) => {
         setConsulta(response.data);
-        console.log(response.data);
+        console.log(response);
       })
       .catch((error) => console.log(error));
   }
@@ -125,9 +126,10 @@ export const PatientHomeScreen = ({ route, navigation }) => {
                 onPressCancel={() => MostrarModal("cancelar", item)}
                 onPressAppointment={() =>
                   navigation.replace("MedicalRecord", {
+                    consultaId: item.id,
                     descricao: item.descricao,
-                    medicamento: item.receita.medicamento,
-                    observacoes: item.receita.observacoes
+                    diagnostico: item.diagnostico,
+                    medicamento: item.descricao,
                   })
                 }
                 onPressDoctor={() => MostrarModal("", item)}
@@ -150,7 +152,9 @@ export const PatientHomeScreen = ({ route, navigation }) => {
         roleUsuario={profile.role}
         visible={showModalAppointment}
         setShowModalAppointment={setShowModalAppointment}
-        nav={() => navigation.navigate("SelectClinic")}
+        setConsultaOriginal={setConsultaOriginal}
+        route={route}
+        navigation={navigation}
       />
 
       <DoctorModal
