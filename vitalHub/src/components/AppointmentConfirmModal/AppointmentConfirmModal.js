@@ -40,24 +40,23 @@ export const AppointmentConfirmModal = ({
     if (token) {
       setProfile(token);
     }
-    console.log("AGENDAMENTO");
-    console.log(agendamento);
-    console.log(profile);
   }
   useEffect(() => {
     profileLoad();
-    
   }, [visible]);
 
   async function handleConfirm() {
-    await api.post("/Consultas/Cadastrar", {
-      ...agendamento,
-      pacienteId: profile.id,
-      situacaoId: "2ECDE952-5409-4F28-9C04-3F7FD47C8C47",
-    }).then( async () => {
-      await setShowModal(false)
-      navigation.replace("Main")
-    })
+    await api
+      .post("/Consultas/Cadastrar", {
+        ...agendamento,
+        pacienteId: profile.id,
+        situacaoId: "2ECDE952-5409-4F28-9C04-3F7FD47C8C47",
+      })
+      .then(async () => {
+        await setShowModal(false);
+        agendamento = null;
+        navigation.replace("Main");
+      });
   }
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">

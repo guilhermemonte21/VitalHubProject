@@ -20,6 +20,14 @@ export const SelectDoctorScreen = ({ navigation, route }) => {
   }
 
   async function handleContinue() {
+    agendamento
+      ? selectedDoctor.medicoClinicaId
+        ? handleNavigation()
+        : alert("Campo obrigatório não preenchido")
+      : alert("Campo obrigatório não preenchido");
+  }
+
+  async function handleNavigation() {
     navigation.replace("SelectDate", {
       agendamento: {
         ...route.params.agendamento,

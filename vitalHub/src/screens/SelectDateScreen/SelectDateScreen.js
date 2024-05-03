@@ -20,6 +20,14 @@ export const SelectDateScreen = ({ navigation, route }) => {
   }
 
   async function handleContinue() {
+    agendamento
+      ? dataSelecionada && horaSelecionada
+        ? handleConfirm()
+        : alert("Campo obrigatório não preenchido")
+      : alert("Campo obrigatório não preenchido");
+  }
+
+  async function handleConfirm() {
     await setAgendamento({
       ...route.params.agendamento,
       dataConsulta: `${dataSelecionada} ${horaSelecionada}`,

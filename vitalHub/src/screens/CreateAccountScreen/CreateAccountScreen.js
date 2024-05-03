@@ -51,6 +51,10 @@ export const CreateAccountScreen = ({ navigation }) => {
     }
   };
 
+  async function HandleCancel() {
+    navigation.replace("Login");
+  }
+
   return (
     <Container>
       <Logo source={require("../../assets/VitalHub_Logo 1.png")} />
@@ -79,7 +83,9 @@ export const CreateAccountScreen = ({ navigation }) => {
       <Button onPress={() => Cadastro()}>
         <ButtonTitle color={"white"}>Cadastrar</ButtonTitle>
       </Button>
-      <Link color={"#344F8F"}>Cancelar</Link>
+      <Link color={"#344F8F"} onPress={() => HandleCancel()}>
+        Cancelar
+      </Link>
     </Container>
   );
 };

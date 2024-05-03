@@ -18,6 +18,14 @@ export const SelectClinicScreen = ({ navigation, setModal, route }) => {
   }
 
   async function handleContinue() {
+    agendamento
+      ? selectedClinic.clinicaId
+        ? handleNavigation()
+        : alert("Campo obrigatório não preenchido")
+      : alert("Campo obrigatório não preenchido");
+  }
+
+  async function handleNavigation() {
     navigation.replace("SelectDoctor", {
       agendamento: {
         ...route.params.agendamento,
