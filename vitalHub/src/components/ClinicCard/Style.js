@@ -1,12 +1,10 @@
 import styled from "styled-components";
 
 export const CardContainer = styled.TouchableOpacity`
-  align-self: center;
-  width: 90%;
-  height: 84px;
+  border-radius: 3px;
   background-color: #fff;
   margin: 10px;
-  
+
   elevation: 1;
   shadow-color: "#000";
   shadow-offset: {
@@ -15,10 +13,6 @@ export const CardContainer = styled.TouchableOpacity`
   }
   shadow-opacity: 0.08;
   shadow-radius: 5px;
-
-  border: ${(props) =>
-    props.selected == true ? "2px solid #496BBA" : "0"};
-
 
   border-radius: 5px;
   padding: 18px;

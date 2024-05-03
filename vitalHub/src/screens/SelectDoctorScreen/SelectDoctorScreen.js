@@ -9,24 +9,51 @@ import { DoctorCard } from "../../components/DoctorCard/DoctorCard";
 import api from "../../services/service";
 import axios from "axios";
 
-export const SelectDoctorScreen = ({ navigation }) => {
+export const SelectDoctorScreen = ({ navigation, route }) => {
+  const { agendamento } = route.params;
   //* Criar o state para receber a lista dos medicos(Array)
   const [Doctors, setDoctors] = useState([]);
+  const [selectedDoctor, setSelectedDoctor] = useState({});
+
+  async function handleReturn() {
+    navigation.navigate("Main");
+  }
+
+  async function handleContinue() {
+    agendamento
+      ? selectedDoctor.medicoClinicaId
+        ? handleNavigation()
+        : alert("Campo obrigatório não preenchido")
+      : alert("Campo obrigatório não preenchido");
+  }
+
+  async function handleNavigation() {
+    navigation.replace("SelectDate", {
+      agendamento: {
+        ...route.params.agendamento,
+        ...selectedDoctor,
+      },
+    });
+  }
 
   async function getDoctors() {
-    api
-      .get("/Medicos")
-      .then((response) => {
-        setDoctors(response.data);
-      })
-      .catch((error) => console.log(error));
+    if (agendamento) {
+      api
+        .get(`/Medicos/BuscarPorIdClinica?id=${agendamento.clinicaId}`)
+        .then((response) => {
+          setDoctors(response.data);
+        })
+        .catch((error) => console.log(error));
+    }
   }
+
   //* Criar um effect para chamada da funcao
   useEffect(() => {
     getDoctors();
   }, []);
-
-  const [selectedDoctor, setSelectedDoctor] = useState();
+  useEffect(() => {
+    console.log(route);
+  }, [route]);
 
   //* Passar os dados do state(Array) para o flatlist
   //* Passar o médico como prop no DoctorCard
@@ -40,16 +67,22 @@ export const SelectDoctorScreen = ({ navigation }) => {
         renderItem={({ item }) => (
           <DoctorCard
             doctor={item}
-          // selected={selectedDoctor === item.id ? true : false}
-          // onPress={() => setSelectedDoctor(item.id)}
+            onPress={() =>
+              setSelectedDoctor({
+                medicoClinicaId: item.id,
+                doctorLabel: item.idNavigation.nome,
+                doctorSpecialtyId: item.especialidade.id,
+                doctorSpecialtyLabel: item.especialidade.especialidade1,
+              })
+            }
           />
         )}
       />
 
-      <Button onPress={() => navigation.navigate("SelectDate")}>
+      <Button onPress={() => handleContinue()}>
         <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
       </Button>
-      <ButtonSecondary onPress={() => navigation.navigate("SelectClinic")}>
+      <ButtonSecondary onPress={() => handleReturn()}>
         <Link color={"#344F8F"}>Cancelar</Link>
       </ButtonSecondary>
     </Container>

@@ -27,7 +27,7 @@ export const InputLight = styled(Input)`
   margin-top: 5px;
   
 
-  color: ${(props) => `${props.color}`};
+  color: #4e4b59;
   font-size: 14px;
   color: #33303e;
   font-family: MontserratAlternates_500Medium;

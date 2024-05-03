@@ -6,11 +6,22 @@ import { Button } from "../../components/Button/Style";
 import { ButtonTitle } from "../../components/ButtonTitle/Style";
 import { Subtitle } from "../../components/Subtitle/Style";
 import { Link } from "../../components/Link/Style";
+import { useState } from "react";
+import api from "../../services/service.js";
 
 export const ForgotPasswordScreen = ({ navigation }) => {
+  const [email, setEmail] = useState("")
+
   async function Continue(){
     navigation.navigate("EmailVerification")
   }
+
+  async function EnviarEmail(){
+    await api.post(`/RecuperarSenhar?email=${email}`).then(() => {
+      navigation.replace("EmailVefication", {email: email})
+    })
+  }
+  
   return (
     <Container>
       <Logo source={require("../../assets/VitalHub_Logo 1.png")} />
@@ -21,12 +32,12 @@ export const ForgotPasswordScreen = ({ navigation }) => {
         recuperação de senha
       </Subtitle>
 
-      <Input placeholder="Usuário ou E-mail" />
+      <Input placeholder="Usuário ou E-mail" onChangeText={(txt) => setEmail(txt)}/>
 
-      <Button onPress={(e) => Continue()}>
+      <Button onPress={() => Continue()}>
         <ButtonTitle color={"white"}>Continuar</ButtonTitle>
       </Button>
-      <Link onPress={navigation.navigate("Login")} color={"#344F8F"}>Cancelar</Link>
+      <Link onPress={() => navigation.navigate("Login")} color={"#344F8F"}>Cancelar</Link>
     </Container>
   );
 };
