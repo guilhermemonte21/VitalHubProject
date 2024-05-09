@@ -16,6 +16,7 @@ import api from "../../services/service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { userDecodeToken } from "../../utils/Auth";
+import { BottomTextContainer } from "./Style";
 
 export const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -39,14 +40,8 @@ export const LoginScreen = ({ navigation }) => {
   }
 
   async function profileLoad() {
-    userDecodeToken();
-  }
-
-  async function profileLoad() {
-    const token = await userDecodeToken();
-
-    if (token) {
-      console.log(token);
+    if (email !== null) {
+      Login();
     }
   }
 
@@ -83,7 +78,7 @@ export const LoginScreen = ({ navigation }) => {
       </ButtonGoogle>
 
       <TextAccount color={"#4D659D"}>
-        {"Não tem conta? "}{" "}
+        {"Não tem conta? "}
         <ButtonSecondary onPress={() => navigation.replace("CreateAccount")}>
           <Link color={"#4D659D"}>Crie uma conta agora!</Link>
         </ButtonSecondary>

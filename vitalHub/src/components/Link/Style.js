@@ -11,5 +11,5 @@ export const Link = styled.Text.attrs({
   text-align: center;
 
   width: 90%;
-  margin-top: 15px;
+  margin-top: 18px;
 `;

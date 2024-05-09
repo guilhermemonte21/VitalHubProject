@@ -7,6 +7,7 @@ export const TextAccount = styled.Text`
 
   text-decoration: none;
   text-align: center;
+  vertical-align: center;
 
   width: 90%;
   margin-top: 15px;
