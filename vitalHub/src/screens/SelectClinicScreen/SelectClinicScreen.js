@@ -14,10 +14,18 @@ export const SelectClinicScreen = ({ navigation, setModal, route }) => {
   const [selectedClinic, setSelectedClinic] = useState({});
 
   async function handleReturn() {
-    navigation.navigate("Home");
+    navigation.navigate("Main");
   }
 
   async function handleContinue() {
+    agendamento
+      ? selectedClinic.clinicaId
+        ? handleNavigation()
+        : alert("Campo obrigatório não preenchido")
+      : alert("Campo obrigatório não preenchido");
+  }
+
+  async function handleNavigation() {
     navigation.replace("SelectDoctor", {
       agendamento: {
         ...route.params.agendamento,
@@ -27,12 +35,14 @@ export const SelectClinicScreen = ({ navigation, setModal, route }) => {
   }
 
   async function getClinic() {
-    api
-      .get(`/Clinica/BuscarPorCidade?cidade=${agendamento.localizacao}`)
-      .then((response) => {
-        setClinic(response.data);
-      })
-      .catch((error) => console.log(error));
+    if (agendamento) {
+      api
+        .get(`/Clinica/BuscarPorCidade?cidade=${agendamento.localizacao}`)
+        .then((response) => {
+          setClinic(response.data);
+        })
+        .catch((error) => console.log(error));
+    }
   }
 
   useEffect(() => {
@@ -69,7 +79,7 @@ export const SelectClinicScreen = ({ navigation, setModal, route }) => {
       <Button onPress={() => handleContinue()}>
         <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
       </Button>
-      <ButtonSecondary onPress={() => HandleReturn()}>
+      <ButtonSecondary onPress={() => handleReturn()}>
         <Link color={"#344F8F"}>Cancelar</Link>
       </ButtonSecondary>
     </Container>

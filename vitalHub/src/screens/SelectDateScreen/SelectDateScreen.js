@@ -15,9 +15,19 @@ export const SelectDateScreen = ({ navigation, route }) => {
   const [horaSelecionada, setHoraSelecionada] = useState();
   const [showModal, setShowModal] = useState(false);
 
-
+  async function handleReturn() {
+    navigation.navigate("Main");
+  }
 
   async function handleContinue() {
+    agendamento
+      ? dataSelecionada && horaSelecionada
+        ? handleConfirm()
+        : alert("Campo obrigatório não preenchido")
+      : alert("Campo obrigatório não preenchido");
+  }
+
+  async function handleConfirm() {
     await setAgendamento({
       ...route.params.agendamento,
       dataConsulta: `${dataSelecionada} ${horaSelecionada}`,
@@ -43,7 +53,7 @@ export const SelectDateScreen = ({ navigation, route }) => {
       <Button onPress={() => handleContinue()}>
         <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
       </Button>
-      <ButtonSecondary onPress={() => navigation.replace("SelectDoctor")}>
+      <ButtonSecondary onPress={() => handleReturn()}>
         <Link color={"#344F8F"}>Cancelar</Link>
       </ButtonSecondary>
       <AppointmentConfirmModal

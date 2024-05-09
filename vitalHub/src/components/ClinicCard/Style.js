@@ -1,11 +1,7 @@
 import styled from "styled-components";
 
-export const CardContainer = styled.TouchableOpacity.attrs(props => ({
-  selected: props.selected || false
-}))`
+export const CardContainer = styled.TouchableOpacity`
   border-radius: 3px;
-
-  border: ${props => props.selected === true ? "2px solid #496BBA" : "0"};
   background-color: #fff;
   margin: 10px;
 

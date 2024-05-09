@@ -24,16 +24,17 @@ import api from "../../services/service";
 import { userDecodeToken } from "../../utils/Auth";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { CameraModal } from "../../components/CameraModal/CameraModal";
-import { ButtonCamera } from "./Style";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
+import { ButtonCamera } from "./Style";
+import moment from "moment/moment";
 
 export const ProfileScreen = () => {
   const [pfpSource, setPfpSource] = useState(
     require("../../assets/ProfileImgPlaceholder.png")
   );
-  const [editavel, setEditavel] = useState(false)
   const [id, setId] = useState();
+  const [role, setRole] = useState();
   const [nome, setNome] = useState();
   const [photo, setPhoto] = useState();
   const [email, setEmail] = useState();
@@ -42,6 +43,40 @@ export const ProfileScreen = () => {
   const [endereco, setEndereco] = useState();
   const [showModal, setShowModal] = useState(false);
   const [uriCameraCapture, setUriCameraCapture] = useState(null);
+  const [editavel, setEditavel] = useState(false);
+  const [dadosUsuario, setDadosUsuario] = useState({});
+
+  const AtualizarUsuario = async (idUsuario, dadosUsuario) => {
+    console.log(role);
+    idTipoUsuario =
+      role === "Paciente"
+        ? "8A95FC3C-47BF-4CCD-BB3E-649A8F0D12D6"
+        : "2E2A80A5-4DF1-43A3-B804-915FDEE1C026";
+    console.log(cpf);
+    console.log(endereco.logradouro);
+    console.log(endereco.numero);
+    console.log(endereco.cidade);
+    console.log(endereco.cep);
+    await api
+      .put(`/${role}s?idUsuario=${id}`, {
+        dataNascimento: moment(dadosUsuario.dataNascimento).format(
+          "YYYY-MM-DD"
+        ),
+        cpf: cpf,
+        logradouro: endereco.logradouro,
+        numero: endereco.numero,
+        cidade: endereco.cidade,
+        cep: endereco.cep,
+      })
+      .then(() => {
+        profileLoad().then(() => {
+          setEditavel(false);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   async function requestGaleria() {
     await MediaLibrary.requestMediaLibraryPermissionsAsync;
@@ -55,18 +90,28 @@ export const ProfileScreen = () => {
     })();
   }, [uriCameraCapture]);
 
-  async function profileLoad() {
-    
-    const token = await userDecodeToken();
+  async function toggleEdit() {
+    editavel === false ? setEditavel(true) : setEditavel(false);
+  }
 
+  async function profileLoad() {
+    const token = await userDecodeToken();
+    await api
+      .get(`/${token.role}s/BuscarPorId?id=${token.id}`)
+      .then((response) => {
+        setDadosUsuario(response.data);
+      });
     if (token) {
       console.log(token);
       setId(token.jti);
+      setRole(token.role);
       setNome(token.name);
       setEmail(token.email);
       await api
         .get(`/Pacientes/BuscarPorId?id=${token.id}`)
         .then((response) => {
+          console.log(response);
+          setDadosUsuario(response.data);
           setId(response.data.id);
           setCpf(response.data.cpf);
           setBirth(response.data.dataNascimento);
@@ -76,7 +121,7 @@ export const ProfileScreen = () => {
   }
 
   async function ChangeProfilePicture() {
-    profileLoad()
+    profileLoad();
     console.log(`/Usuario/AlterarFotoPerfil?id=${id}`);
 
     const formData = new FormData();
@@ -109,36 +154,13 @@ export const ProfileScreen = () => {
 
   useEffect(() => {
     if (uriCameraCapture != null) {
-      ChangeProfilePicture(); 
+      ChangeProfilePicture();
     }
   }, [uriCameraCapture]);
-
-
-  const AtualizarUsuario = async (idUsuario, dadosUsuario) => {
-    const idTipoUsuario = "415320A4-9FB0-43B3-A267-1073183B9770"
-  
-    await api.put(`/Pacientes?idUsuario=${idUsuario}`, {
-        rg: dadosUsuario.rg,
-        cpf: dadosUsuario.cpf,
-        dataNascimento: moment(dadosUsuario.dataNascimento).format("YYYY-MM-DD"),
-        cep: dadosUsuario.endereco.cep,
-        logradouro: dadosUsuario.endereco.logradouro,
-        numero: dadosUsuario.endereco.numero,
-        cidade: dadosUsuario.endereco.cidade,
-        nome: dadosUsuario.idNavigation.nome,
-        idTipoUsuario
-    }).then(() => {
-        CarregarDadosUsuario(idUsuario, perfilUsuario).then(() => {
-            setEditavel(false)
-        })
-    }).catch(error => {
-        alert(error)
-    })
-}
   return (
     <>
       <View>
-        <ProfileImg source={{uri: photo}} />
+        <ProfileImg source={{ uri: photo }} />
         <ButtonCamera onPress={() => setShowModal(true)}>
           <MaterialCommunityIcons
             name="camera-plus"
@@ -155,7 +177,8 @@ export const ProfileScreen = () => {
           <FieldContent>
             <InputLabel>Data de nascimento</InputLabel>
             <InputLightEditable
-              editable={true}n 
+              onChangeText={(txt) => setBirth(txt)}
+              editable={editavel}
               color={"white"}
               placeholder={"DD/MM/YYYY"}
               maxLength={10}
@@ -166,7 +189,8 @@ export const ProfileScreen = () => {
           <FieldContent>
             <InputLabel>CPF</InputLabel>
             <InputLightEditable
-              editable={false}
+              onChangeText={(txt) => setCpf(txt)}
+              editable={editavel}
               color={"white"}
               placeholder={"*********-**"}
               maxLength={13}
@@ -176,15 +200,22 @@ export const ProfileScreen = () => {
           </FieldContent>
           <FieldContent>
             <InputLabel>Endereço</InputLabel>
-            <InputLightEditable editable={true} color={"white"}>
-              {endereco ? `${endereco.logradouro}, ${endereco.numero}` : null}
+            <InputLightEditable
+              onChangeText={(txt) =>
+                setEndereco({ ...endereco, logradouro: txt })
+              }
+              editable={editavel}
+              color={"white"}
+            >
+              {endereco ? `${endereco.logradouro}` : null}
             </InputLightEditable>
           </FieldContent>
           <ContainerRow>
             <FieldContentSmall>
               <InputLabel>CEP</InputLabel>
               <InputLightEditable
-                editable={false}
+                onChangeText={(txt) => setCep(txt)}
+                editable={editavel}
                 color={"white"}
                 placeholder={"*****-***"}
                 maxLength={11}
@@ -195,18 +226,21 @@ export const ProfileScreen = () => {
             <FieldContentSmall>
               <InputLabel>Cidade</InputLabel>
               <InputLightEditable
+                onChangeText={(txt) =>
+                  setEndereco({ ...endereco, cidade: txt })
+                }
                 color={"white"}
-                editable={false}
+                editable={editavel}
                 placeholder={"*****-***"}
               >
                 {endereco ? `${endereco.cidade}-SP` : null}
               </InputLightEditable>
             </FieldContentSmall>
           </ContainerRow>
-          <Button>
-            <ButtonTitle onPress={() => AtualizarUsuario()} color={"#FFFFFF"}>SALVAR</ButtonTitle>
+          <Button onPress={() => AtualizarUsuario(id, dadosUsuario)}>
+            <ButtonTitle color={"#FFFFFF"}>SALVAR</ButtonTitle>
           </Button>
-          <Button>
+          <Button onPress={() => toggleEdit()}>
             <ButtonTitle color={"#FFFFFF"}>EDITAR</ButtonTitle>
           </Button>
         </Container>

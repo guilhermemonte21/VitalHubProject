@@ -15,7 +15,19 @@ export const SelectDoctorScreen = ({ navigation, route }) => {
   const [Doctors, setDoctors] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState({});
 
+  async function handleReturn() {
+    navigation.navigate("Main");
+  }
+
   async function handleContinue() {
+    agendamento
+      ? selectedDoctor.medicoClinicaId
+        ? handleNavigation()
+        : alert("Campo obrigatório não preenchido")
+      : alert("Campo obrigatório não preenchido");
+  }
+
+  async function handleNavigation() {
     navigation.replace("SelectDate", {
       agendamento: {
         ...route.params.agendamento,
@@ -70,7 +82,7 @@ export const SelectDoctorScreen = ({ navigation, route }) => {
       <Button onPress={() => handleContinue()}>
         <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
       </Button>
-      <ButtonSecondary onPress={() => navigation.navigate("SelectClinic")}>
+      <ButtonSecondary onPress={() => handleReturn()}>
         <Link color={"#344F8F"}>Cancelar</Link>
       </ButtonSecondary>
     </Container>

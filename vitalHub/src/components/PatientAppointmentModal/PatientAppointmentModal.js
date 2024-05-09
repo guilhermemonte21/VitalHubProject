@@ -31,9 +31,23 @@ export const PatientAppointmentModal = ({
   const [agendamento, setAgendamento] = useState(null);
 
   async function handleContinue() {
+    agendamento
+      ? agendamento.prioridadeId && agendamento.localizacao
+        ? handleNavigation()
+        : alert("Campo obrigatório não preenchido")
+      : alert("Campo obrigatório não preenchido");
+  }
+
+  async function handleCancel() {
+    setAgendamento(null);
+    setShowModalAppointment(false);
+  }
+
+  async function handleNavigation() {
     setShowModalAppointment(false);
     navigation.replace("SelectClinic", { agendamento: agendamento });
   }
+
   return (
     <Modal {...rest} visible={visible} transparent={true} animationType="fade">
       <PatientModal>
@@ -46,8 +60,11 @@ export const PatientAppointmentModal = ({
               <BtnAppointmentType
                 textButton={"Rotina"}
                 clickButton={
-                  agendamento ? agendamento.prioridadeId ===
-                  "8983DA22-E4E0-41F3-BF2B-C28137EBD41A" : null}
+                  agendamento
+                    ? agendamento.prioridadeId ===
+                      "8983DA22-E4E0-41F3-BF2B-C28137EBD41A"
+                    : null
+                }
                 onPress={() =>
                   setAgendamento({
                     ...agendamento,
@@ -59,8 +76,10 @@ export const PatientAppointmentModal = ({
               <BtnAppointmentType
                 textButton={"Exame"}
                 clickButton={
-                  agendamento ? agendamento.prioridadeId ===
-                  "DDA6658E-1510-440D-A1D8-2DCFBBAC758F" : null
+                  agendamento
+                    ? agendamento.prioridadeId ===
+                      "DDA6658E-1510-440D-A1D8-2DCFBBAC758F"
+                    : null
                 }
                 onPress={() =>
                   setAgendamento({
@@ -73,8 +92,10 @@ export const PatientAppointmentModal = ({
               <BtnAppointmentType
                 textButton={"Urgência"}
                 clickButton={
-                  agendamento ? agendamento.prioridadeId ===
-                  "8E5522B5-2BF1-4B3F-8CB4-B8DBDAB3FE04" : null
+                  agendamento
+                    ? agendamento.prioridadeId ===
+                      "8E5522B5-2BF1-4B3F-8CB4-B8DBDAB3FE04"
+                    : null
                 }
                 onPress={() =>
                   setAgendamento({
@@ -100,7 +121,7 @@ export const PatientAppointmentModal = ({
             <Button onPress={() => handleContinue()}>
               <ButtonTitle color={"#FFF"}>CONTINUAR</ButtonTitle>
             </Button>
-            <ButtonSecondary onPress={() => setShowModalAppointment(false)}>
+            <ButtonSecondary onPress={() => handleCancel()}>
               <Link color={"#344F8F"}>Cancelar</Link>
             </ButtonSecondary>
           </ColumnContainer>
