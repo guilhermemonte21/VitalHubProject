@@ -19,8 +19,8 @@ import { userDecodeToken } from "../../utils/Auth";
 import { BottomTextContainer } from "./Style";
 
 export const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [email, setEmail] = useState("rick@gmail.com");
+  const [senha, setSenha] = useState("1234");
   const [inProgress, setInProgress] = useState(false);
 
   async function Login() {
@@ -46,7 +46,7 @@ export const LoginScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
-    profileLoad();
+    // profileLoad();
   }, []);
 
   return (

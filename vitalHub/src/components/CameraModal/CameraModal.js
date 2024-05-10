@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { AutoFocus, Camera, CameraType, FlashMode } from "expo-camera";
+import { Camera, CameraView } from "expo-camera";
 import { useEffect, useState, useRef } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { LastPicture } from "./Style";
@@ -23,9 +23,10 @@ export const CameraModal = ({
   setPfp,
   getMediaLibrary = true,
 }) => {
-  const [tipoCamera, setTipoCamera] = useState(CameraType.back);
-  const [focus, setFocus] = useState(AutoFocus.on);
-  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+  // const [tipoCamera, setTipoCamera] = useState(Camera.AutoFocus);
+  const [facing, setFacing] = useState("front");
+  const [focus, setFocus] = useState("on");
+  const [flash, setFlash] = useState("off");
   const [openModal, setOpenModal] = useState(false);
   const [picture, setPicture] = useState(null);
   const [lastPicture, setLastPicture] = useState();
@@ -114,44 +115,36 @@ export const CameraModal = ({
   return (
     <Modal visible={visible}>
       <View style={styles.container}>
-        <Camera
-          flashMode={flash}
+        <CameraView
+          flash={flash}
           ref={cameraRef}
           style={styles.camera}
-          type={tipoCamera}
+          facing={facing}
           ratio="16:9"
+          autofocus={true}
+          whiteBalance={"shadow"}
         >
           <View style={styles.viewFlip}>
             <TouchableOpacity
               style={styles.btnFlip}
-              onPress={() =>
-                setTipoCamera(
-                  tipoCamera === CameraType.back
-                    ? CameraType.front
-                    : CameraType.back
-                )
-              }
+              onPress={() => setFacing(facing === "front" ? "back" : "front")}
             >
               <Text style={styles.txtFlip}>Trocar</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnFlip}
-              onPress={() =>
-                setFocus(focus === AutoFocus.on ? AutoFocus.off : AutoFocus.on)
-              }
+              onPress={() => setFocus(focus === "on" ? "off" : "on")}
             >
               <Text style={styles.txtFlip}>Focus : {focus}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btnFlip}
-              onPress={() =>
-                setFlash(flash === FlashMode.on ? FlashMode.off : FlashMode.on)
-              }
+              onPress={() => setFlash(flash === "on" ? "off" : "on")}
             >
               <Text style={styles.txtFlip}>Flash : {flash}</Text>
             </TouchableOpacity>
           </View>
-        </Camera>
+        </CameraView>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
             style={styles.btnCapture}
