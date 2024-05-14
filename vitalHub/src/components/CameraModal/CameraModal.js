@@ -16,6 +16,7 @@ import * as Notifications from "expo-notifications";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
 
+
 export const CameraModal = ({
   visible,
   setUriCameraCapture,
@@ -23,7 +24,8 @@ export const CameraModal = ({
   setPfp,
   getMediaLibrary = true,
 }) => {
-  const [tipoCamera, setTipoCamera] = useState(CameraType.back);
+  // const [tipoCamera, setTipoCamera] = useState(CameraType.back);
+  const [facing, setFacing] = useState("front")
   const [focus, setFocus] = useState(AutoFocus.on);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const [openModal, setOpenModal] = useState(false);
@@ -126,9 +128,9 @@ export const CameraModal = ({
               style={styles.btnFlip}
               onPress={() =>
                 setTipoCamera(
-                  tipoCamera === CameraType.back
-                    ? CameraType.front
-                    : CameraType.back
+                  facing === "front"
+                    ? "back"
+                    : "front"
                 )
               }
             >

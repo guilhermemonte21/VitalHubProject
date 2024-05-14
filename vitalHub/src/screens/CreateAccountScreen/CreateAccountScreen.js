@@ -36,7 +36,7 @@ export const CreateAccountScreen = ({ navigation }) => {
 
         //Após o cadastro, vai redirecionar para a tela de Login ( Se Deus quiser )
 
-        navigation.replace("Login");
+        navigation.replace("Profile");
       } else {
         alert("As senhas não coincidem");
       }
