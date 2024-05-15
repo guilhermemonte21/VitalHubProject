@@ -19,8 +19,8 @@ import { userDecodeToken } from "../../utils/Auth";
 import { BottomTextContainer } from "./Style";
 
 export const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("rick@gmail.com");
-  const [senha, setSenha] = useState("1234");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const [inProgress, setInProgress] = useState(false);
 
   async function Login() {

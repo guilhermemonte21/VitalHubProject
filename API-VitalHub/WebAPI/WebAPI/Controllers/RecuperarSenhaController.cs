@@ -57,9 +57,9 @@ namespace WebAPI.Controllers
                 {
                     return NotFound("Usuário não encontrado.");
                 }
-                if (user.CodRecupSenha == recoveryCode)
+                if (user.CodRecupSenha != recoveryCode)
                 {
-                    return BadRequest("Código inválido");
+                    return BadRequest(user);
                 }
 
                 user.CodRecupSenha = null;

@@ -14,6 +14,7 @@ export const EmailVerificationScreen = ({ navigation, route }) => {
   const [code, setCode] = useState(false);
   const inputs = [useRef(null), useRef(null), useRef(null), useRef(null)];
   async function ResetPassword() {
+    ValidateCode()
     navigation.navigate("ResetPassword");
   }
 

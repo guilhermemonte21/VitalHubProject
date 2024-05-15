@@ -10,18 +10,17 @@ import { useState } from "react";
 import api from "../../services/service.js";
 
 export const ForgotPasswordScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("guilhermemontefilho2112@gmail.com");
 
-  async function Continue(){
-    navigation.navigate("EmailVerification")
+  async function EnviarEmail() {
+    try {
+      await api.post(`/RecuperarSenhar?email=${email}`);
+      // navigation.replace("EmailVerification", {email: email})
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  async function EnviarEmail(){
-    await api.post(`/RecuperarSenhar?email=${email}`).then(() => {
-      navigation.replace("EmailVefication", {email: email})
-    })
-  }
-  
   return (
     <Container>
       <Logo source={require("../../assets/VitalHub_Logo 1.png")} />
@@ -32,12 +31,18 @@ export const ForgotPasswordScreen = ({ navigation }) => {
         recuperação de senha
       </Subtitle>
 
-      <Input placeholder="Usuário ou E-mail" onChangeText={(txt) => setEmail(txt)}/>
+      <Input
+        placeholder="Usuário ou E-mail"
+        value={email}
+        onChangeText={(txt) => setEmail(txt)}
+      />
 
-      <Button onPress={() => Continue()}>
+      <Button onPress={() => EnviarEmail()}>
         <ButtonTitle color={"white"}>Continuar</ButtonTitle>
       </Button>
-      <Link onPress={() => navigation.navigate("Login")} color={"#344F8F"}>Cancelar</Link>
+      <Link onPress={() => navigation.navigate("Login")} color={"#344F8F"}>
+        Cancelar
+      </Link>
     </Container>
   );
 };

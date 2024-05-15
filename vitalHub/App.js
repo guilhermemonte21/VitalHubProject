@@ -5,6 +5,10 @@ import {
   requestForegroundPermissionAsync,
   getCurrentPositionAsync,
 } from "expo-location";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";

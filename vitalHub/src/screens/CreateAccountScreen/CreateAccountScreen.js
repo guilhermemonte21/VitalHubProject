@@ -12,6 +12,7 @@ import api from "../../services/service";
 export const CreateAccountScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [nome, setNome] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const [id, setId] = useState("8A95FC3C-47BF-4CCD-BB3E-649A8F0D12D6");
 
@@ -22,6 +23,7 @@ export const CreateAccountScreen = ({ navigation }) => {
 
         form.append("email", `${email}`);
         form.append("senha", `${senha}`);
+        form.append("nome", `${nome}`);
         form.append("idTipoUsuario", `8A95FC3C-47BF-4CCD-BB3E-649A8F0D12D6`);
 
         const response = await api.post("/Pacientes", form, {
@@ -70,11 +72,18 @@ export const CreateAccountScreen = ({ navigation }) => {
         onChangeText={(txt) => setEmail(txt)}
       />
       <Input
+        value={nome}
+        placeholder="Nome"
+        onChangeText={(txt) => setNome(txt)}
+      />
+      <Input
         value={senha}
+        secureTextEntry={true}
         placeholder="Senha"
         onChangeText={(txt) => setSenha(txt)}
       />
       <Input
+        secureTextEntry={true}
         value={confirmarSenha}
         placeholder="Confirmar senha"
         onChangeText={(txt) => setConfirmarSenha(txt)}

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Camera, CameraView } from "expo-camera";
+import { Camera, CameraView, useCameraPermissions } from "expo-camera";
 import { useEffect, useState, useRef } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { LastPicture } from "./Style";
@@ -24,6 +24,7 @@ export const CameraModal = ({
   getMediaLibrary = true,
 }) => {
   // const [tipoCamera, setTipoCamera] = useState(Camera.AutoFocus);
+  const [permission, requestPermission] = useCameraPermissions();
   const [facing, setFacing] = useState("front");
   const [focus, setFocus] = useState("on");
   const [flash, setFlash] = useState("off");
@@ -34,8 +35,11 @@ export const CameraModal = ({
   const cameraRef = useRef(null);
   useEffect(() => {
     (async () => {
-      const { status: cameraStatus } =
-        await Camera.requestCameraPermissionsAsync();
+      // const { status: cameraStatus } =
+      //   await Camera.requestCameraPermissionsAsync();
+      if(permission && !permission.granted){
+        await requestPermission()
+      }
       const { status: mediaStatus } =
         await MediaLibrary.requestPermissionsAsync();
     })();
@@ -116,15 +120,15 @@ export const CameraModal = ({
     <Modal visible={visible}>
       <View style={styles.container}>
         <CameraView
-          flash={flash}
           ref={cameraRef}
+          flash={flash}
           style={styles.camera}
           facing={facing}
           ratio="16:9"
-          autofocus={true}
+          // autofocus={true}
           whiteBalance={"shadow"}
         >
-          <View style={styles.viewFlip}>
+          {/* <View style={styles.viewFlip}>
             <TouchableOpacity
               style={styles.btnFlip}
               onPress={() => setFacing(facing === "front" ? "back" : "front")}
@@ -143,7 +147,7 @@ export const CameraModal = ({
             >
               <Text style={styles.txtFlip}>Flash : {flash}</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </CameraView>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
@@ -157,7 +161,7 @@ export const CameraModal = ({
             onPress={() => SelectImageGallery()}
           >
             {lastPicture != null ? (
-              <LastPicture source={{ uri: lastPicture }}></LastPicture>
+              <LastPicture source={{ uri: lastPicture }}/>
             ) : null}
           </TouchableOpacity>
           <TouchableOpacity
