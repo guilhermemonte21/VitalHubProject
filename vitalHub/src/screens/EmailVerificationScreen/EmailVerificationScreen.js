@@ -11,15 +11,17 @@ import { Subtitle, SubtitleHighlighted } from "../../components/Subtitle/Style";
 import { useRef, useState } from "react";
 export const EmailVerificationScreen = ({ navigation, route }) => {
   const [load, setLoad] = useState(false);
-  const [code, setCode] = useState(false);
+  const [code, setCode] = useState("");
   const inputs = [useRef(null), useRef(null), useRef(null), useRef(null)];
   async function ResetPassword() {
-    ValidateCode()
-    navigation.navigate("ResetPassword");
+    ValidateCode();
+    navigation.navigate("ResetPassword", { email: route.params.email });
   }
 
-  async function ValidateCode(){
-    await api.post(`/RecuperarSenha/ChecarCodigo?email=${route.params.email}&recoveryCode=${code}`)
+  async function ValidateCode() {
+    await api.post(
+      `/RecuperarSenha/ChecarCodigo?email=${route.params.email}&recoveryCode=${code}`
+    );
   }
 
   async function focusNextInput(index) {
@@ -40,7 +42,7 @@ export const EmailVerificationScreen = ({ navigation, route }) => {
 
       <Title>Verifique seu e-mail</Title>
       <Subtitle color={"4E4B59"}>
-        Digite o código de 4 dígitos enviado para
+        {"Digite o código de 4 dígitos enviado para "} 
         <SubtitleHighlighted color={"#496BBA"}>
           {route.params.email}
         </SubtitleHighlighted>
@@ -55,7 +57,7 @@ export const EmailVerificationScreen = ({ navigation, route }) => {
               if (txt == "") {
                 focusPrevInput(index);
               } else {
-                const informedCode = [...codigo];
+                const informedCode = [...code];
                 informedCode[index] = txt;
                 setCode(informedCode.join(""));
 

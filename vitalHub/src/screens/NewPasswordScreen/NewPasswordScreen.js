@@ -12,20 +12,23 @@ export const NewPasswordScreen = ({ navigation, route }) => {
   const [senha, setSenha] = useState("");
   const [senha2, setSenha2] = useState("");
   async function ChangePassword() {
+    console.log(route.params.email);
+    console.log(senha);
     if (senha === senha2) {
       await api
-        .post(`/Usuario/AlterarSenha?email=${route.params.email}`, {
-          novaSenha: senha,
+        .put(`/Usuario/AlterarSenha?email=${route.params.email}`, {
+          senhaNova: senha,
         })
         .then(() => {
-          navigation.replace("Login");
+          console.log("1");
+          navigation.navigate("Login");
         })
         .catch((error) => {
+          console.log("2");
           console.log(error);
         });
-    }
-    else{
-      alert("Senhas incompatíveis")
+    } else {
+      alert("Senhas incompatíveis");
     }
   }
   //* :3
@@ -39,9 +42,16 @@ export const NewPasswordScreen = ({ navigation, route }) => {
       <Title>Redefinir senha</Title>
       <Subtitle color={"4E4B59"}>Insira e confirme a sua nova senha</Subtitle>
 
-      <Input placeholder="Nova senha" onChangeText={(txt) => setSenha(txt)} />
       <Input
+        placeholder="Nova senha"
+        secureTextEntry={true}
+        value={senha}
+        onChangeText={(txt) => setSenha(txt)}
+      />
+      <Input
+        secureTextEntry={true}
         placeholder="Confirmar nova senha"
+        value={senha2}
         onChangeText={(txt) => setSenha2(txt)}
       />
 

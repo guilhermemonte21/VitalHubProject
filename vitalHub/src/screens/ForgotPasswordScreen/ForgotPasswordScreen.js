@@ -14,8 +14,8 @@ export const ForgotPasswordScreen = ({ navigation }) => {
 
   async function EnviarEmail() {
     try {
-      await api.post(`/RecuperarSenhar?email=${email}`);
-      // navigation.replace("EmailVerification", {email: email})
+      await api.post(`/RecuperarSenha?email=${email}`);
+      navigation.replace("EmailVerification", {email: email})
     } catch (error) {
       console.log(error);
     }
